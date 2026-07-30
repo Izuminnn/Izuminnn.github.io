@@ -79,7 +79,7 @@ tailwind.config = {
 
 <!-- ============================ ĐẦU TRANG ============================ -->
 <section class="mx-auto max-w-shell px-5 sm:px-8 pt-[116px] lg:pt-[126px]">
-  <p class="u-eyebrow rise" data-en="Scan library <span class=&quot;dot&quot;>·</span> <span data-count=&quot;sites&quot;>27</span> sites">Thư viện scan <span class="dot">·</span> <span data-count="sites">27</span> địa điểm</p>
+  <p class="u-eyebrow rise" data-en="Scan library <span class=&quot;dot&quot;>·</span> <span data-count=&quot;sites&quot;>5</span> sites">Thư viện scan <span class="dot">·</span> <span data-count="sites">5</span> địa điểm</p>
 
   <div class="grid lg:grid-cols-[1.25fr_1fr] gap-8 lg:gap-14 items-end mt-6">
     <h1 class="u-display text-bone text-[clamp(2.1rem,4.8vw,3.35rem)] m-0 rise" data-en="Pick a monument.<br>Step inside.">
@@ -143,7 +143,9 @@ tailwind.config = {
         <p class="font-serif text-bone text-[1.0625rem] leading-snug mt-3 mb-0" id="ro-name">Toàn bộ thư viện</p>
         <p class="font-mono text-[10px] tracking-[.16em] uppercase text-bonemute mt-2 mb-0" id="ro-city"></p>
         <p class="font-mono text-[10px] tracking-[.14em] text-bonemute mt-4 mb-0" id="ro-coords">—</p>
-        <button class="locate mt-5" type="button" id="ro-reset" data-en="View whole map">Xem toàn bản đồ</button>
+        <!-- Hiện lên khi đã chọn một địa điểm; href do JS gắn theo địa điểm đang xem. -->
+        <a class="locate mt-5" id="ro-gmaps" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer" hidden
+           data-en="Open in Google Maps">Mở trên Google Maps</a>
       </div>
     </aside>
 
@@ -250,6 +252,7 @@ tailwind.config = {
   var emptyEl = document.getElementById('empty');
   var countEl = document.getElementById('result-count');
   var qEl     = document.getElementById('q');
+  var gmapsEl = document.getElementById('ro-gmaps');
   var chips   = Array.prototype.slice.call(document.querySelectorAll('[data-region]'));
   var reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -324,6 +327,35 @@ tailwind.config = {
     '</article>';
   }
 
+  /* Vùng đánh dấu `soon: true` trong heritage-data.js — công ty chưa quét ở đó.
+     Thay lưới thẻ bằng một ô mời đề xuất di tích. */
+  function soonHTML(src) {
+    var name = T.f(src, 'region');
+    var blurb = T.f(src, 'blurb') || '';
+    var note = T.f(src, 'soon_note') || T.t(
+      'Đội quét chưa tới khu vực này. ' + name + ' nằm trong kế hoạch mở rộng — ' +
+      'di tích đầu tiên sẽ xuất hiện ở đây ngay khi quét xong.',
+      'Our scanning team has not reached this region yet. The first monument in ' +
+      name + ' will appear here as soon as it has been captured.');
+
+    return '<section aria-label="' + esc(name) + '">' +
+      '<div class="region-head">' +
+        '<h2 class="region-name m-0">' + esc(name) + '</h2>' +
+        '<span class="chip chip--soon ml-auto flex-none">' +
+          T.t('Sắp mở rộng', 'Expanding soon') +
+        '</span>' +
+      '</div>' +
+      (blurb ? '<p class="mt-4 mb-0 text-bonemute text-[.875rem] max-w-[62ch]">' + esc(blurb) + '</p>' : '') +
+      '<div class="soon-panel mt-8">' +
+        '<p class="u-eyebrow m-0">' + T.t('Chưa có bản quét', 'No scans yet') + '</p>' +
+        '<p class="mt-4 mb-0 text-bonedim leading-[1.75] max-w-[52ch]">' + esc(note) + '</p>' +
+        '<a class="btn btn--ghost btn--sm mt-6" href="index.html#lien-he">' +
+          esc(T.t('Đề xuất di tích ở ' + name, 'Suggest a monument in ' + name)) +
+        '</a>' +
+      '</div>' +
+    '</section>';
+  }
+
   function render() {
     var q = window.pshDeaccent(query).toLowerCase().trim();
     var rows = ALL.filter(function (it) {
@@ -332,25 +364,31 @@ tailwind.config = {
       return true;
     });
 
-    countEl.textContent = rows.length
-      ? T.t('Hiển thị ' + rows.length + ' / ' + ALL.length + ' địa điểm',
-            'Showing ' + rows.length + ' of ' + ALL.length + ' sites')
-      : T.t('Không có kết quả', 'No results');
-    emptyEl.hidden = rows.length > 0;
-
-    /* Gom lại theo vùng → tỉnh, giữ đúng thứ tự trong heritage-data.js */
-    var order = [], bucket = {};
+    /* Gom lại theo vùng → tỉnh */
+    var bucket = {};
     rows.forEach(function (it) {
-      if (!bucket[it.region]) { bucket[it.region] = { order: [], cities: {} }; order.push(it.region); }
+      if (!bucket[it.region]) bucket[it.region] = { order: [], cities: {} };
       var r = bucket[it.region];
       if (!r.cities[it.city]) { r.cities[it.city] = []; r.order.push(it.city); }
       r.cities[it.city].push(it);
     });
 
-    listEl.innerHTML = order.map(function (rn) {
+    /* Duyệt theo đúng thứ tự vùng đã khai trong heritage-data.js */
+    var soonShown = 0;
+    listEl.innerHTML = window.PSH_HERITAGE.map(function (src) {
+      var rn = src.region;
+
+      /* Vùng chưa mở rộng không có thẻ nào để lọc, nên chỉ hiện khi đang xem
+         "Tất cả" hoặc bấm đúng vùng đó, và không đang gõ tìm kiếm. */
+      if (src.soon) {
+        if (q || (region !== 'all' && region !== rn)) return '';
+        soonShown++;
+        return soonHTML(src);
+      }
+
       var r = bucket[rn];
+      if (!r) return '';
       var n = r.order.reduce(function (a, c) { return a + r.cities[c].length; }, 0);
-      var src = window.PSH_HERITAGE.filter(function (x) { return x.region === rn; })[0] || {};
       var regionName = T.f(src, 'region') || rn;
       var meta = T.f(src, 'blurb') || '';
 
@@ -375,6 +413,14 @@ tailwind.config = {
       '</section>';
     }).join('');
 
+    countEl.textContent = rows.length
+      ? T.t('Hiển thị ' + rows.length + ' / ' + ALL.length + ' địa điểm',
+            'Showing ' + rows.length + ' of ' + ALL.length + ' sites')
+      : soonShown
+        ? T.t('Khu vực này chưa có bản quét', 'No scans in this region yet')
+        : T.t('Không có kết quả', 'No results');
+    emptyEl.hidden = rows.length > 0 || soonShown > 0;
+
     syncMarkers(rows);
   }
 
@@ -383,7 +429,9 @@ tailwind.config = {
   function initMap() {
     if (!window.L) return;
     map = L.map('map', { zoomControl: true, scrollWheelZoom: false, attributionControl: true });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    /* Nền sáng (CARTO Positron): dễ đọc tên đường, tên tỉnh hơn bản đồ tối,
+       và để ghim đỏ/xanh nổi hẳn lên. */
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       subdomains: 'abcd',
       maxZoom: 19,
       attribution: '© OpenStreetMap · © CARTO'
@@ -425,24 +473,50 @@ tailwind.config = {
     if (rows.length) fitAll(rows);
   }
 
+  /* Mức phóng của bản đồ.
+     Ô bản đồ trên máy tính cao 440px, trên điện thoại chỉ 300px, nên máy tính
+     xem gần được thêm hai bậc mà vẫn đủ thấy xung quanh.
+       - fitZoom   : chặn trên khi khớp khung nhìn cho cả danh sách. Các địa điểm
+                     nằm cùng một xã sẽ không bị đẩy ra xa nữa; còn khi danh sách
+                     trải khắp cả nước thì Leaflet tự lùi ra, con số này không cản.
+       - focusZoom : mức phóng khi chọn một địa điểm. Đủ gần để hai điểm cách
+                     nhau vài chục mét tách hẳn ra thành hai ghim. */
+  function isWide() { return window.matchMedia('(min-width: 1024px)').matches; }
+  function fitZoom()   { return isWide() ? 17 : 15; }
+  function focusZoom() { return isWide() ? 17 : 15; }
+
   function fitAll(rows) {
     if (!map) return;
     var list = rows || ALL;
     var pts = list.map(function (it) { return [it.lat, it.lng]; });
     if (!pts.length) return;
-    map.fitBounds(L.latLngBounds(pts), { padding: [34, 34], maxZoom: 11, animate: !reduce });
+    map.fitBounds(L.latLngBounds(pts), { padding: [34, 34], maxZoom: fitZoom(), animate: !reduce });
     setActive(null);
     document.getElementById('ro-name').textContent = T.t('Toàn bộ thư viện', 'Whole library');
     document.getElementById('ro-city').textContent =
       T.t('Việt Nam · ' + list.length + ' địa điểm',
           'Vietnam · ' + list.length + (list.length === 1 ? ' site' : ' sites'));
     document.getElementById('ro-coords').textContent = '—';
+    if (gmapsEl) gmapsEl.hidden = true;  // chưa chọn địa điểm nào thì chưa có gì để mở
+  }
+
+  /* Link tới địa điểm trên Google Maps, theo thứ tự ưu tiên:
+       1. Ô `gmaps` trong heritage-data.js — link dán thẳng, luôn ra đúng chỗ.
+          Dùng khi Google tìm theo tên không ra, hoặc ra nhầm địa điểm khác.
+       2. Chưa có ô đó thì tự tìm theo tên tiếng Việt + tỉnh.
+     Không dùng lat/lng vì toạ độ trong heritage-data.js mới là gần đúng,
+     chỉ đủ để cắm ghim chứ chưa đủ chuẩn để chỉ đường. */
+  function gmapsURL(it) {
+    if (it.gmaps) return it.gmaps;
+    return 'https://www.google.com/maps/search/?api=1&query=' +
+      encodeURIComponent(it.name + ', ' + it.city + ', Việt Nam');
   }
 
   function setActive(id) {
     if (activeId && markers[activeId]) {
       var prev = markers[activeId].marker.getElement();
       if (prev) { var p = prev.querySelector('.pin'); if (p) p.classList.remove('is-active'); }
+      markers[activeId].marker.setZIndexOffset(0);
     }
     listEl.querySelectorAll('.card.is-active').forEach(function (c) { c.classList.remove('is-active'); });
     activeId = id;
@@ -451,6 +525,8 @@ tailwind.config = {
     if (rec) {
       var el = rec.marker.getElement();
       if (el) { var pin = el.querySelector('.pin'); if (pin) pin.classList.add('is-active'); }
+      /* Hai địa điểm sát nhau thì ghim đang chọn phải nằm đè lên, không bị che. */
+      rec.marker.setZIndexOffset(1000);
     }
     var card = listEl.querySelector('[data-id="' + id + '"]');
     if (card) card.classList.add('is-active');
@@ -461,7 +537,7 @@ tailwind.config = {
     if (!rec || !map) return;
     var it = rec.item;
     setActive(id);
-    var z = keepZoom ? map.getZoom() : 13;
+    var z = keepZoom ? map.getZoom() : focusZoom();
     if (reduce) map.setView([it.lat, it.lng], z, { animate: false });
     else map.flyTo([it.lat, it.lng], z, { duration: 0.75 });
 
@@ -469,6 +545,12 @@ tailwind.config = {
     document.getElementById('ro-city').textContent = T.f(it, 'city') + ' · ' + T.f(it, 'region');
     document.getElementById('ro-coords').textContent =
       it.lat.toFixed(4) + '° N, ' + it.lng.toFixed(4) + '° E';
+
+    /* Xoá nút khỏi HTML thì hai dòng này tự bỏ qua, trang không lỗi. */
+    if (gmapsEl) {
+      gmapsEl.href = gmapsURL(it);
+      gmapsEl.hidden = false;
+    }
   }
 
   /* ---------------- Sự kiện ---------------- */
@@ -494,7 +576,6 @@ tailwind.config = {
     }
   });
 
-  document.getElementById('ro-reset').addEventListener('click', function () { fitAll(); });
 
   chips.forEach(function (btn) {
     btn.addEventListener('click', function () {

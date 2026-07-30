@@ -29,6 +29,9 @@
      lat, lng           : toạ độ để cắm ghim bản đồ  ⚠️ hiện là toạ độ gần đúng, nên rà lại
      viewer             : LINK VIEWER 3DGS của địa điểm đó (trang bên ngoài).
                           → Để '' (chuỗi rỗng) nếu chưa có: thẻ sẽ tự hiện "Sắp ra mắt".
+     gmaps              : LINK GOOGLE MAPS dán thẳng, cho nút "Mở trên Google Maps".
+                          → Không viết ô này thì trang tự tìm theo tên + tỉnh. Chỉ cần
+                            điền khi tìm theo tên không ra, hoặc ra nhầm địa điểm khác.
      splats             : số hạt splat (dữ liệu mẫu — sửa theo bản quét thật)
      captured           : tháng/năm quét (dữ liệu mẫu)
      captured_en        : chỉ cần khi `captured` có chữ tiếng Việt, ví dụ "Dự kiến 10/2026"
@@ -40,6 +43,23 @@
 
    ⚠️ Các link `viewer` bên dưới là LINK MẪU. Thay bằng link thật rồi xoá
       dải cảnh báo màu vàng ở đầu trang gallery.html.
+
+   -------------------------------------------------------------------------
+   VÙNG CHƯA MỞ RỘNG  →  ô "Sắp ra mắt"
+
+   Thêm `soon: true` vào một vùng thì trang gallery hiện một ô "Sắp ra mắt"
+   thay cho lưới thẻ. Mọi địa điểm trong `cities` của vùng đó bị bỏ qua hoàn
+   toàn: không đếm vào số liệu trang chủ, không cắm ghim lên bản đồ, không ra
+   kết quả tìm kiếm. Nhờ vậy dữ liệu vẫn nằm sẵn trong file, chỉ là chưa công
+   bố.
+
+   Muốn viết lời nhắn riêng cho vùng đó thì thêm `soon_note` / `soon_note_en`.
+   Không viết thì trang dùng lời nhắn mặc định.
+
+   ➜ KHI CÔNG TY MỞ RỘNG TỚI VÙNG ĐÓ: xoá dòng `soon: true`, rồi thay dữ liệu
+     mẫu trong `cities` bằng dữ liệu thật. Các bước chi tiết: xem HUONG-DAN.md.
+
+   Hiện đang bật `soon: true`: Miền Trung, Miền Nam.
    ========================================================================= */
 
 window.PSH_HERITAGE = [
@@ -52,94 +72,40 @@ window.PSH_HERITAGE = [
       {
         city: 'Hà Nội', city_en: 'Hanoi',
         items: [
-          { name:'Hoàng thành Thăng Long', name_en:'Thăng Long Imperial Citadel',
-            type:'Di sản văn hoá thế giới', type_en:'World Cultural Heritage',
+          { name:'Cổng làng lụa Vạn Phúc', name_en:'Van Phuc Silk Village Gate',
+            type:'Di sản', type_en:'Heritage',
             era:'Thế kỷ XI', era_en:'11th century',
-            lat:21.0345, lng:105.8400,
+            lat:20.9792, lng:105.7730,
+            gmaps:'https://maps.app.goo.gl/3QM56cTfpEiNJoEd7',
             viewer:'https://lcc-viewer.xgrids.com/pub/32ef8d04-5ad8-4e8a-a9d2-42ae8e4d08db',
-            photo:'images/hoangthanhthanglong.webp',
-            splats:'48.2M', captured:'03/2025', unesco:true, tone:0 },
+            photo:'images/conglangvanphuc.jpg',
+            splats:'48.2M', captured:'07/2026', unesco:false, tone:0 },
 
-          { name:'Văn Miếu – Quốc Tử Giám', name_en:'Temple of Literature',
-            type:'Di tích quốc gia đặc biệt', type_en:'Special National Monument',
+          { name:'Chùa Vạn Phúc', name_en:'Van Phuc Temple',
+            type:'Di sản', type_en:'Heritage',
             era:'1070', era_en:'1070',
-            lat:21.0293, lng:105.8355,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/van-mieu-quoc-tu-giam',
-            splats:'36.9M', captured:'03/2025', unesco:false, tone:1 },
+            lat:20.9794, lng:105.7728,
+            viewer:'https://lcc-viewer.xgrids.com/pub/1f406c03-f5bd-4984-9567-0f4468e7c208',
+            photo:'images/chuavanphuc.webp',
+            splats:'36.9M', captured:'07/2026', unesco:false, tone:1 },
 
-          { name:'Chùa Một Cột', name_en:'One Pillar Pagoda',
-            type:'Di tích quốc gia', type_en:'National Monument',
+          { name:'Cầu ngói làng lụa', name_en:'Pagoda',
+            type:'Di sản', type_en:'Heritage',
             era:'1049', era_en:'1049',
             lat:21.0359, lng:105.8339,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/chua-mot-cot',
-            splats:'12.4M', captured:'04/2025', unesco:false, tone:2 },
+            viewer:'',
+            photo:'images/caungoilanglua.jpg',
+            splats:'—', captured:'Dự kiến 08/2026', unesco:false, tone:2 },
 
-          { name:'Nhà thờ Lớn Hà Nội', name_en:"St. Joseph's Cathedral",
-            type:'Kiến trúc Pháp thuộc', type_en:'French colonial architecture',
+          { name:'Đình làng Vạn Phúc', name_en:"Van Phuc Communal House",
+            type:'Di sản', type_en:'Heritage',
             era:'1886', era_en:'1886',
             lat:21.0288, lng:105.8489,
             viewer:'',
-            splats:'—', captured:'Dự kiến 09/2026', captured_en:'Planned 09/2026', unesco:false, tone:3 }
+            photo:'images/dinhlangvanphuc.jpg',
+            splats:'—', captured:'Dự kiến 08/2026', captured_en:'Planned 08/2026', unesco:false, tone:3 }
         ]
       },
-      {
-        city: 'Ninh Bình', city_en: 'Ninh Binh',
-        items: [
-          { name:'Quần thể danh thắng Tràng An', name_en:'Tràng An Landscape Complex',
-            type:'Di sản hỗn hợp thế giới', type_en:'Mixed World Heritage',
-            era:'Địa mạo karst', era_en:'Karst landscape',
-            lat:20.2506, lng:105.8964,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/trang-an',
-            splats:'92.7M', captured:'01/2025', unesco:true, tone:1 },
-
-          { name:'Cố đô Hoa Lư', name_en:'Hoa Lư Ancient Capital',
-            type:'Di tích quốc gia đặc biệt', type_en:'Special National Monument',
-            era:'Thế kỷ X', era_en:'10th century',
-            lat:20.2842, lng:105.9114,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/co-do-hoa-lu',
-            splats:'41.3M', captured:'01/2025', unesco:true, tone:2 }
-        ]
-      },
-      {
-        city: 'Quảng Ninh', city_en: 'Quang Ninh',
-        items: [
-          { name:'Vịnh Hạ Long', name_en:'Hạ Long Bay',
-            type:'Di sản thiên nhiên thế giới', type_en:'World Natural Heritage',
-            era:'Karst ngập nước', era_en:'Drowned karst',
-            lat:20.9101, lng:107.1839,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/vinh-ha-long',
-            splats:'128.5M', captured:'11/2024', unesco:true, tone:0 }
-        ]
-      },
-      {
-        city: 'Bắc Ninh', city_en: 'Bac Ninh',
-        items: [
-          { name:'Đền Đô (Đền Lý Bát Đế)', name_en:'Đền Đô — Temple of the Eight Lý Kings',
-            type:'Di tích quốc gia đặc biệt', type_en:'Special National Monument',
-            era:'1030', era_en:'1030',
-            lat:21.1170, lng:105.9530,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/den-do',
-            splats:'27.6M', captured:'05/2025', unesco:false, tone:3 },
-
-          { name:'Chùa Dâu', name_en:'Dâu Pagoda',
-            type:'Di tích quốc gia đặc biệt', type_en:'Special National Monument',
-            era:'Thế kỷ II', era_en:'2nd century',
-            lat:21.0470, lng:106.0080,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/chua-dau',
-            splats:'22.1M', captured:'05/2025', unesco:false, tone:0 }
-        ]
-      },
-      {
-        city: 'Hà Giang', city_en: 'Ha Giang',
-        items: [
-          { name:'Dinh thự họ Vương', name_en:'Vương Family Mansion',
-            type:'Di tích kiến trúc nghệ thuật quốc gia', type_en:'National Architectural Monument',
-            era:'1919', era_en:'1919',
-            lat:23.2167, lng:105.3167,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/dinh-thu-ho-vuong',
-            splats:'31.8M', captured:'10/2024', unesco:false, tone:1 }
-        ]
-      }
     ]
   },
 
@@ -148,6 +114,11 @@ window.PSH_HERITAGE = [
     region_en: 'Central Vietnam',
     blurb: 'Kinh đô triều Nguyễn, phố cảng Hội An và tháp gạch Chăm Pa.',
     blurb_en: 'The Nguyễn dynasty capital, the port town of Hội An and Cham brick towers.',
+
+    /* ⏳ Chưa mở rộng tới đây. Xoá đúng dòng `soon: true` bên dưới là cả vùng
+          hiện ra bình thường — nhớ thay dữ liệu mẫu bằng dữ liệu thật trước. */
+    soon: true,
+
     cities: [
       {
         city: 'Thừa Thiên Huế', city_en: 'Hue',
@@ -157,86 +128,7 @@ window.PSH_HERITAGE = [
             era:'1805', era_en:'1805',
             lat:16.4698, lng:107.5786,
             viewer:'https://viewer.xgrids.com/REPLACE_ME/dai-noi-hue',
-            splats:'156.4M', captured:'02/2025', unesco:true, tone:2 },
-
-          { name:'Lăng Khải Định', name_en:'Tomb of Khải Định',
-            type:'Di sản văn hoá thế giới', type_en:'World Cultural Heritage',
-            era:'1931', era_en:'1931',
-            lat:16.4000, lng:107.5744,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/lang-khai-dinh',
-            splats:'58.9M', captured:'02/2025', unesco:true, tone:3 },
-
-          { name:'Lăng Tự Đức', name_en:'Tomb of Tự Đức',
-            type:'Di sản văn hoá thế giới', type_en:'World Cultural Heritage',
-            era:'1867', era_en:'1867',
-            lat:16.4569, lng:107.5497,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/lang-tu-duc',
-            splats:'64.2M', captured:'02/2025', unesco:true, tone:0 },
-
-          { name:'Chùa Thiên Mụ', name_en:'Thiên Mụ Pagoda',
-            type:'Di tích quốc gia', type_en:'National Monument',
-            era:'1601', era_en:'1601',
-            lat:16.4536, lng:107.5450,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/chua-thien-mu',
-            splats:'29.7M', captured:'02/2025', unesco:false, tone:1 }
-        ]
-      },
-      {
-        city: 'Quảng Nam', city_en: 'Quang Nam',
-        items: [
-          { name:'Phố cổ Hội An', name_en:'Hội An Ancient Town',
-            type:'Di sản văn hoá thế giới', type_en:'World Cultural Heritage',
-            era:'Thế kỷ XV', era_en:'15th century',
-            lat:15.8770, lng:108.3270,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/pho-co-hoi-an',
-            splats:'112.3M', captured:'12/2024', unesco:true, tone:2 },
-
-          { name:'Chùa Cầu', name_en:'Japanese Covered Bridge',
-            type:'Di sản văn hoá thế giới', type_en:'World Cultural Heritage',
-            era:'1593', era_en:'1593',
-            lat:15.8772, lng:108.3260,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/chua-cau',
-            splats:'18.6M', captured:'12/2024', unesco:true, tone:3 },
-
-          { name:'Thánh địa Mỹ Sơn', name_en:'Mỹ Sơn Sanctuary',
-            type:'Di sản văn hoá thế giới', type_en:'World Cultural Heritage',
-            era:'Thế kỷ IV', era_en:'4th century',
-            lat:15.7639, lng:108.1244,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/thanh-dia-my-son',
-            splats:'74.8M', captured:'12/2024', unesco:true, tone:0 }
-        ]
-      },
-      {
-        city: 'Quảng Bình', city_en: 'Quang Binh',
-        items: [
-          { name:'Động Phong Nha', name_en:'Phong Nha Cave',
-            type:'Di sản thiên nhiên thế giới', type_en:'World Natural Heritage',
-            era:'Karst 400 triệu năm', era_en:'400-million-year karst',
-            lat:17.5850, lng:106.2833,
-            viewer:'',
-            splats:'—', captured:'Dự kiến 11/2026', captured_en:'Planned 11/2026', unesco:true, tone:1 }
-        ]
-      },
-      {
-        city: 'Khánh Hoà', city_en: 'Khanh Hoa',
-        items: [
-          { name:'Tháp Bà Ponagar', name_en:'Po Nagar Cham Towers',
-            type:'Di tích quốc gia', type_en:'National Monument',
-            era:'Thế kỷ VIII', era_en:'8th century',
-            lat:12.2653, lng:109.1955,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/thap-ba-ponagar',
-            splats:'33.5M', captured:'06/2025', unesco:false, tone:2 }
-        ]
-      },
-      {
-        city: 'Bình Định', city_en: 'Binh Dinh',
-        items: [
-          { name:'Tháp Đôi Quy Nhơn', name_en:'Twin Cham Towers, Quy Nhơn',
-            type:'Di tích quốc gia', type_en:'National Monument',
-            era:'Thế kỷ XII', era_en:'12th century',
-            lat:13.7797, lng:109.2178,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/thap-doi-quy-nhon',
-            splats:'19.4M', captured:'06/2025', unesco:false, tone:3 }
+            splats:'156.4M', captured:'02/2025', unesco:true, tone:2 }
         ]
       }
     ]
@@ -247,6 +139,11 @@ window.PSH_HERITAGE = [
     region_en: 'Southern Vietnam',
     blurb: 'Kiến trúc thuộc địa, công trình tôn giáo và di tích chiến tranh.',
     blurb_en: 'Colonial architecture, religious landmarks and wartime sites.',
+
+    /* ⏳ Chưa mở rộng tới đây. Xoá đúng dòng `soon: true` bên dưới là cả vùng
+          hiện ra bình thường — nhớ thay dữ liệu mẫu bằng dữ liệu thật trước. */
+    soon: true,
+
     cities: [
       {
         city: 'TP. Hồ Chí Minh', city_en: 'Ho Chi Minh City',
@@ -279,39 +176,6 @@ window.PSH_HERITAGE = [
             viewer:'',
             splats:'—', captured:'Dự kiến 10/2026', captured_en:'Planned 10/2026', unesco:false, tone:3 }
         ]
-      },
-      {
-        city: 'Tây Ninh', city_en: 'Tay Ninh',
-        items: [
-          { name:'Toà Thánh Cao Đài Tây Ninh', name_en:'Cao Đài Holy See',
-            type:'Di tích kiến trúc nghệ thuật', type_en:'Architectural Monument',
-            era:'1947', era_en:'1947',
-            lat:11.3018, lng:106.1300,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/toa-thanh-tay-ninh',
-            splats:'69.5M', captured:'07/2025', unesco:false, tone:0 }
-        ]
-      },
-      {
-        city: 'An Giang', city_en: 'An Giang',
-        items: [
-          { name:'Miếu Bà Chúa Xứ Núi Sam', name_en:'Bà Chúa Xứ Temple, Sam Mountain',
-            type:'Di tích quốc gia', type_en:'National Monument',
-            era:'1820', era_en:'1820',
-            lat:10.6800, lng:105.0900,
-            viewer:'https://viewer.xgrids.com/REPLACE_ME/mieu-ba-chua-xu',
-            splats:'25.9M', captured:'07/2025', unesco:false, tone:1 }
-        ]
-      },
-      {
-        city: 'Cần Thơ', city_en: 'Can Tho',
-        items: [
-          { name:'Nhà cổ Bình Thuỷ', name_en:'Bình Thuỷ Ancient House',
-            type:'Di tích kiến trúc nghệ thuật quốc gia', type_en:'National Architectural Monument',
-            era:'1870', era_en:'1870',
-            lat:10.0640, lng:105.7360,
-            viewer:'',
-            splats:'—', captured:'Dự kiến 12/2026', captured_en:'Planned 12/2026', unesco:false, tone:2 }
-        ]
       }
     ]
   }
@@ -326,11 +190,14 @@ window.pshDeaccent = function (s) {
     .replace(/Đ/g, 'D');
 };
 
-/* Làm phẳng thành một mảng để đếm, lọc và cắm ghim. */
+/* Làm phẳng thành một mảng để đếm, lọc và cắm ghim.
+   Vùng có `soon: true` bị bỏ qua ở đây, nên nó không lọt vào bất cứ chỗ nào
+   dùng PSH_FLAT: số liệu trang chủ, ghim bản đồ, ô tìm kiếm, bộ đếm kết quả. */
 window.PSH_FLAT = (function () {
   var out = [], n = 0;
   window.PSH_HERITAGE.forEach(function (r) {
-    r.cities.forEach(function (c) {
+    if (r.soon) return;
+    (r.cities || []).forEach(function (c) {
       c.items.forEach(function (it) {
         out.push(Object.assign({}, it, {
           region: r.region,
