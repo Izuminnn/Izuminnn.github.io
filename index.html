@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-en="PSH Heritage — Vietnam's heritage in 3D Gaussian Splatting">PSH Heritage — Di sản Việt Nam bằng 3D Gaussian Splatting</title>
+<meta name="description" content="PSH Design × Pigo Tour quét và dựng lại di tích, di sản Việt Nam bằng công nghệ 3D Gaussian Splatting. Miễn phí cho trường học và tổ chức giáo dục."
+      data-en-content="PSH Design × Pigo Tour scan and rebuild Vietnam's monuments and heritage sites with 3D Gaussian Splatting. Free for schools and educational institutions.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/psh.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      ink:  { 900:'#080d0a', 800:'#0c1410', 700:'#111c16', 600:'#17261e', 500:'#1e3227', 400:'#2a4436' },
+      psh:  '#ed1c24', pshb:'#ff3b41', pigo:'#1b9e4b', lime:'#8dc63f',
+      bone: '#ede6d8', bonedim:'#b8ae9c', bonemute:'#7f8a82', brass:'#c9a227'
+    },
+    fontFamily: {
+      display:['Archivo','sans-serif'],
+      body:['"Be Vietnam Pro"','sans-serif'],
+      serif:['Lora','Georgia','serif'],
+      mono:['"JetBrains Mono"','monospace']
+    },
+    maxWidth: { shell:'1240px' }
+  }}
+};
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-en="Skip to main content">Bỏ qua tới nội dung chính</a>
+
+<!-- ============================ NAV ============================ -->
+<header id="nav" class="nav fixed top-0 inset-x-0 z-50">
+  <div class="mx-auto max-w-shell px-5 sm:px-8 h-[72px] flex items-center justify-between gap-4">
+    <a href="index.html" class="group flex items-center gap-3 no-underline" aria-label="PSH Heritage — trang chủ" data-en-aria-label="PSH Heritage — home">
+      <span class="mark" aria-hidden="true"><i></i></span>
+      <span class="leading-none">
+        <span class="block font-display font-extrabold tracking-[-.02em] text-bone text-[15px]">PSH HERITAGE</span>
+        <span class="block font-mono text-[9px] tracking-[.26em] text-bonemute mt-[4px]">PSH DESIGN × PIGO TOUR</span>
+      </span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-1" aria-label="Điều hướng chính" data-en-aria-label="Main navigation">
+      <a class="nav-link" href="#cong-nghe" data-en="Technology">Công nghệ</a>
+      <a class="nav-link" href="gallery.html" data-en="Scan library">Thư viện scan</a>
+      <a class="nav-link" href="#gioi-thieu" data-en="About us">Về chúng tôi</a>
+      <a class="nav-link" href="#giao-duc" data-en="Schools">Trường học</a>
+      <div class="lang ml-3" role="group" aria-label="Ngôn ngữ" data-en-aria-label="Language">
+        <button class="lang-btn" type="button" data-lang-btn="vi" aria-pressed="true">VI</button>
+        <button class="lang-btn" type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn--primary btn--sm ml-2" href="#lien-he" data-en="Contact">Liên hệ</a>
+    </nav>
+
+    <div class="flex items-center gap-3 lg:hidden">
+      <div class="lang" role="group" aria-label="Ngôn ngữ" data-en-aria-label="Language">
+        <button class="lang-btn" type="button" data-lang-btn="vi" aria-pressed="true">VI</button>
+        <button class="lang-btn" type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      </div>
+      <button id="burger" class="inline-flex flex-col justify-center gap-[5px] w-11 h-11 items-center rounded border border-ink-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-lime"
+              aria-expanded="false" aria-controls="drawer" aria-label="Mở menu" data-en-aria-label="Open menu">
+        <span class="block w-5 h-[2px] bg-bone"></span>
+        <span class="block w-5 h-[2px] bg-psh"></span>
+        <span class="block w-5 h-[2px] bg-bone"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="drawer" hidden class="lg:hidden border-t border-ink-500 bg-ink-900/95 backdrop-blur px-5 py-5">
+    <div class="flex flex-col gap-1">
+      <a class="nav-link py-3" href="#cong-nghe" data-en="Technology">Công nghệ</a>
+      <a class="nav-link py-3" href="gallery.html" data-en="Scan library">Thư viện scan</a>
+      <a class="nav-link py-3" href="#gioi-thieu" data-en="About us">Về chúng tôi</a>
+      <a class="nav-link py-3" href="#giao-duc" data-en="Schools">Trường học</a>
+      <a class="btn btn--primary mt-3" href="#lien-he" data-en="Contact">Liên hệ</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================ HERO ============================ -->
+<section class="relative pt-[132px] lg:pt-[168px] pb-16 lg:pb-24 overflow-hidden">
+  <div class="mx-auto max-w-shell px-5 sm:px-8">
+    <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] gap-12 lg:gap-16 items-center">
+
+      <!-- Cột chữ -->
+      <div>
+        <p class="u-eyebrow rise" data-en="3D Gaussian Splatting <span class=&quot;dot&quot;>·</span> Vietnam's monuments &amp; heritage">3D Gaussian Splatting <span class="dot">·</span> Di tích &amp; di sản Việt Nam</p>
+
+        <h1 class="u-display text-bone mt-6 text-[clamp(2.35rem,5.4vw,3.85rem)] rise"
+            data-en="Vietnam's heritage,<br>captured <span class=&quot;text-psh&quot;>light</span><br>by light">
+          Di sản Việt Nam,<br>
+          quét lại <span class="text-psh">từng hạt</span><br>
+          ánh sáng
+        </h1>
+
+        <p class="mt-7 text-bonedim text-[1.0625rem] leading-[1.75] max-w-[46ch] rise"
+           data-en="<strong class=&quot;text-bone font-semibold&quot;>PSH Heritage</strong> is a partnership between <strong class=&quot;text-bone font-semibold&quot;>PSH Design</strong> and <strong class=&quot;text-bone font-semibold&quot;>Pigo Tour</strong>: Vietnam's monuments and heritage sites rebuilt with 3D Gaussian Splatting. Not a photo, not a video — you step into the actual space and look from any angle, right in your browser.">
+          <strong class="text-bone font-semibold">PSH Heritage</strong> là chương trình hợp tác giữa
+          <strong class="text-bone font-semibold">PSH Design</strong> và
+          <strong class="text-bone font-semibold">Pigo Tour</strong>: dựng lại các di tích, di sản Việt Nam
+          bằng 3D Gaussian Splatting. Không phải ảnh, không phải video — bạn bước vào đúng không gian đó,
+          xoay mọi góc, ngay trên trình duyệt.
+        </p>
+
+        <div class="mt-9 flex flex-wrap gap-3 rise">
+          <a class="btn btn--primary" href="gallery.html"
+             data-en="Browse the scan library <svg width=&quot;14&quot; height=&quot;10&quot; viewBox=&quot;0 0 14 10&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot;><path d=&quot;M9 1l4 4-4 4M13 5H1&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;square&quot;/></svg>">
+            Xem thư viện scan
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="#giao-duc" data-en="Free for schools">Miễn phí cho trường học</a>
+        </div>
+
+        <div class="mt-12 pt-8 hairline rise">
+          <p class="font-mono text-[10px] tracking-[.22em] uppercase text-bonemute m-0" data-en="A partnership between">Chương trình hợp tác giữa</p>
+          <div class="mt-4 flex items-center gap-5">
+            <span class="plaque h-[76px] w-[124px] px-3"><img src="brand_assets/pshlogo.jpg" alt="PSH Design" class="max-h-[64px] object-contain"></span>
+            <span class="w-px h-9 bg-ink-400" aria-hidden="true"></span>
+            <span class="plaque h-[76px] w-[80px] px-2"><img src="brand_assets/pigotourlogo.png" alt="Pigo Tour" class="max-h-[56px] object-contain"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dấu ấn: đám mây splat tụ lại thành mái đình -->
+      <div class="rise">
+        <figure class="frame relative m-0">
+          <div class="surface-raised relative overflow-hidden rounded aspect-[5/4] sm:aspect-[4/3]">
+            <canvas id="splat" class="block w-full h-full"></canvas>
+
+            <figcaption class="absolute left-4 bottom-4 right-4 z-10 flex flex-wrap items-end justify-between gap-3 pointer-events-none">
+              <span class="font-mono text-[10px] tracking-[.2em] uppercase text-bonemute"
+                    data-en="Simulation · <span class=&quot;text-lime&quot; id=&quot;splat-count&quot;>2 400</span> splats">
+                Mô phỏng · <span class="text-lime" id="splat-count">2 400</span> hạt splat
+              </span>
+              <span class="font-mono text-[10px] tracking-[.2em] uppercase text-bonemute" data-en="Northern communal-house roof">
+                Mái đình Bắc Bộ
+              </span>
+            </figcaption>
+          </div>
+        </figure>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SỐ LIỆU ============================ -->
+<section class="mx-auto max-w-shell px-5 sm:px-8">
+  <div class="surface stat-rail rise">
+    <div class="stat">
+      <div class="stat-num"><span data-count="sites">27</span></div>
+      <div class="stat-label" data-en="Sites in the library">Địa điểm trong thư viện</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><span data-count="provinces">14</span></div>
+      <div class="stat-label" data-en="Provinces &amp; cities">Tỉnh &amp; thành phố</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><span data-count="unesco">11</span></div>
+      <div class="stat-label" data-en="On the UNESCO list">Thuộc danh mục UNESCO</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-en="0<span class=&quot;unit&quot;>₫</span>">0<span class="unit">đ</span></div>
+      <div class="stat-label" data-en="Cost for schools">Chi phí cho trường học</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CÔNG NGHỆ ============================ -->
+<section id="cong-nghe" class="mx-auto max-w-shell px-5 sm:px-8 pt-24 lg:pt-36">
+  <div class="max-w-[52ch]">
+    <p class="u-eyebrow rise" data-en="Technology <span class=&quot;dot&quot;>·</span> 3DGS">Công nghệ <span class="dot">·</span> 3DGS</p>
+    <h2 class="u-display text-bone mt-5 text-[clamp(1.9rem,4.4vw,3rem)] rise" data-en="Not a photo.<br>Not a video.">
+      Không phải ảnh.<br>Không phải video.
+    </h2>
+    <p class="mt-6 text-bonedim leading-[1.75] rise"
+       data-en="Gaussian Splatting records a building as tens of millions of coloured points, each with its own direction and translucency. The result keeps the faded paint, the moss on the roof tiles and the sunlight crossing the courtyard — the things a hand-built model never gets right.">
+      Gaussian Splatting ghi lại công trình thành hàng chục triệu hạt sáng có màu, có hướng và có độ trong.
+      Kết quả giữ được cả nước sơn bạc màu, vệt rêu trên ngói và ánh nắng hắt qua sân — những thứ mô hình
+      dựng tay không làm ra được.
+    </p>
+  </div>
+
+  <ol class="mt-12 grid md:grid-cols-3 gap-5 list-none p-0">
+    <li class="surface p-7 rise">
+      <span class="chip" data-en="Step 01 · Capture">Bước 01 · Ghi</span>
+      <h3 class="font-display font-bold text-bone text-xl mt-5 tracking-[-.02em]" data-en="On-site scanning">Quét thực địa</h3>
+      <p class="mt-3 text-bonedim text-[.9375rem] leading-[1.7]"
+         data-en="A handheld XGRIDS LiDAR rig walks the whole site, recording geometry and real light at the same time. A mid-sized monument takes about half a day.">
+        Thiết bị LiDAR cầm tay XGRIDS đi hết công trình, thu đồng thời hình khối và ánh sáng thật.
+        Một di tích cỡ trung mất khoảng nửa ngày.
+      </p>
+    </li>
+    <li class="surface p-7 rise">
+      <span class="chip" data-en="Step 02 · Build">Bước 02 · Dựng</span>
+      <h3 class="font-display font-bold text-bone text-xl mt-5 tracking-[-.02em]" data-en="Splat training">Huấn luyện splat</h3>
+      <p class="mt-3 text-bonedim text-[.9375rem] leading-[1.7]"
+         data-en="The capture is processed into a Gaussian cloud. Surfaces, gloss and depth come back exactly as the eye sees them — nothing interpolated, nothing repainted.">
+        Dữ liệu được xử lý thành đám mây Gaussian. Bề mặt, độ bóng và chiều sâu tái tạo đúng như mắt nhìn,
+        không nội suy, không tô lại.
+      </p>
+    </li>
+    <li class="surface p-7 rise">
+      <span class="chip" data-en="Step 03 · Open">Bước 03 · Mở</span>
+      <h3 class="font-display font-bold text-bone text-xl mt-5 tracking-[-.02em]" data-en="View in a browser">Xem trên trình duyệt</h3>
+      <p class="mt-3 text-bonedim text-[.9375rem] leading-[1.7]"
+         data-en="No install, no headset, no plugin. Open the link and you are inside the space, free to move and turn, on a laptop or a phone.">
+        Không cài đặt, không kính, không plugin. Mở link là vào được không gian, đi lại và xoay tự do
+        trên máy tính hoặc điện thoại.
+      </p>
+    </li>
+  </ol>
+</section>
+
+<!-- ============================ GIỚI THIỆU ============================ -->
+<section id="gioi-thieu" class="mx-auto max-w-shell px-5 sm:px-8 pt-24 lg:pt-36">
+  <div class="region-head rise">
+    <h2 class="u-display text-bone text-[clamp(1.9rem,4.4vw,3rem)] m-0" data-en="Two companies,<br>one job worth doing">Hai công ty,<br>một việc cần làm</h2>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-5 mt-10">
+    <!-- PSH Design -->
+    <article class="frame surface-raised p-8 lg:p-10 rise">
+      <div class="plaque h-[92px] w-[186px] px-4"><img src="brand_assets/pshlogo.jpg" alt="Logo PSH Design" class="max-h-[70px] object-contain"></div>
+      <p class="u-eyebrow mt-7" data-en="Capture &amp; build">Bên quét &amp; dựng</p>
+      <h3 class="font-display font-extrabold text-bone text-2xl mt-3 tracking-[-.025em]">PSH DESIGN</h3>
+      <p class="font-serif italic text-brass text-sm mt-1">“Being different”</p>
+      <p class="mt-5 text-bonedim leading-[1.75]"
+         data-en="A design and imaging technology studio. PSH Design handles the whole technical side of the programme: survey, on-site LiDAR scanning, data processing, Gaussian Splatting training, and publishing each build to a viewer.">
+        Studio thiết kế và công nghệ hình ảnh. PSH Design lo toàn bộ phần kỹ thuật của chương trình:
+        khảo sát, quét LiDAR tại chỗ, xử lý dữ liệu, huấn luyện mô hình Gaussian Splatting và
+        đưa bản dựng lên viewer.
+      </p>
+      <ul class="mt-6 flex flex-wrap gap-2 list-none p-0">
+        <li class="chip" data-en="LiDAR scanning">Quét LiDAR</li>
+        <li class="chip" data-en="3DGS processing">Xử lý 3DGS</li>
+        <li class="chip" data-en="Viewer &amp; web embed">Viewer &amp; nhúng web</li>
+      </ul>
+    </article>
+
+    <!-- Pigo Tour -->
+    <article class="frame surface-raised p-8 lg:p-10 rise">
+      <div class="plaque h-[92px] w-[186px] px-4"><img src="brand_assets/pigotourlogo.png" alt="Logo Pigo Tour" class="max-h-[74px] object-contain"></div>
+      <p class="u-eyebrow mt-7" data-en="Content &amp; journeys">Bên nội dung &amp; hành trình</p>
+      <h3 class="font-display font-extrabold text-bone text-2xl mt-3 tracking-[-.025em]">PIGO TOUR</h3>
+      <p class="font-serif italic text-brass text-sm mt-1" data-en="See it for real, then go for real">Đi thật, sau khi đã xem thật</p>
+      <p class="mt-5 text-bonedim leading-[1.75]"
+         data-en="A travel operator. Pigo Tour picks the destinations, writes the interpretation for each site, works with site management boards to secure scanning permission, and runs trips for people who want to visit after seeing the scan.">
+        Đơn vị lữ hành. Pigo Tour chọn điểm đến, viết thuyết minh cho từng di tích, làm việc với ban quản lý
+        để xin phép quét, và tổ chức chuyến đi cho những người muốn đến tận nơi sau khi đã xem bản scan.
+      </p>
+      <ul class="mt-6 flex flex-wrap gap-2 list-none p-0">
+        <li class="chip" data-en="Destination content">Nội dung điểm đến</li>
+        <li class="chip" data-en="Site management liaison">Kết nối ban quản lý</li>
+        <li class="chip" data-en="Field tours">Tour thực địa</li>
+      </ul>
+    </article>
+  </div>
+
+  <p class="mt-8 font-serif text-[1.125rem] leading-[1.8] text-bone max-w-[62ch] rise"
+     data-en="That is where the two meet: <span class=&quot;text-lime&quot;>see it first in 3DGS</span>, then <span class=&quot;text-psh&quot;>go for real with Pigo Tour</span>. A scan does not replace the trip — it is the reason to start one.">
+    Hai việc đó gặp nhau ở đây: <span class="text-lime">xem trước bằng 3DGS</span>, rồi
+    <span class="text-psh">đi thật cùng Pigo Tour</span>. Bản scan không thay thế chuyến đi —
+    nó là lý do để bắt đầu chuyến đi.
+  </p>
+</section>
+
+<!-- ============================ GIÁO DỤC ============================ -->
+<section id="giao-duc" class="mx-auto max-w-shell px-5 sm:px-8 pt-24 lg:pt-36">
+  <div class="region-head rise">
+    <h2 class="u-display text-bone text-[clamp(1.9rem,4.4vw,3rem)] m-0" data-en="Free for schools">Miễn phí cho trường học</h2>
+    <span class="chip chip--edu ml-auto hidden sm:inline-flex" data-en="Free · Unlimited viewing">0đ · Không giới hạn lượt xem</span>
+  </div>
+
+  <div class="grid lg:grid-cols-[1.15fr_1fr] gap-5 mt-10">
+    <article class="surface-raised p-8 lg:p-10 rise" style="box-shadow:0 2px 4px rgba(0,0,0,.5), 0 18px 42px -14px rgba(0,0,0,.72), 0 0 0 1px rgba(237,28,36,.18)">
+      <span class="chip chip--edu" data-en="Education">Giáo dục</span>
+      <h3 class="font-display font-extrabold text-bone text-[1.75rem] mt-5 tracking-[-.025em]" data-en="Schools, libraries, museums">Trường học, thư viện, bảo tàng</h3>
+      <p class="mt-4 text-bonedim leading-[1.75]"
+         data-en="The entire PSH Heritage library is free for every educational institution in Vietnam — for classroom and online teaching alike, with no view limit and no contract.">
+        Toàn bộ thư viện PSH Heritage miễn phí cho mọi cơ sở giáo dục tại Việt Nam — dùng cho tiết học
+        trực tiếp lẫn trực tuyến, không giới hạn số lượt xem, không cần hợp đồng.
+      </p>
+      <ul class="mt-6 space-y-3 list-none p-0 text-[.9375rem]">
+        <li class="flex gap-3 text-bonedim"><span class="text-lime font-mono text-xs mt-1 flex-none">→</span> <span data-en="Send us your school name and subject; we open access within 3 working days.">Gửi tên trường và môn học, chúng tôi mở quyền truy cập trong 3 ngày làm việc.</span></li>
+        <li class="flex gap-3 text-bonedim"><span class="text-lime font-mono text-xs mt-1 flex-none">→</span> <span data-en="Need a local monument scanned for your syllabus? Also free, scheduled quarterly.">Cần quét một di tích ở địa phương để phục vụ chương trình học? Cũng miễn phí, xếp lịch theo quý.</span></li>
+        <li class="flex gap-3 text-bonedim"><span class="text-lime font-mono text-xs mt-1 flex-none">→</span> <span data-en="Comes with the site interpretation written by Pigo Tour.">Kèm bản thuyết minh do Pigo Tour biên soạn cho từng địa điểm.</span></li>
+      </ul>
+      <a class="btn btn--primary mt-8" href="#lien-he" data-en="Register your school">Đăng ký cho trường</a>
+    </article>
+
+    <article class="surface p-8 lg:p-10 rise">
+      <span class="chip" data-en="Organisations &amp; business">Tổ chức &amp; doanh nghiệp</span>
+      <h3 class="font-display font-extrabold text-bone text-[1.75rem] mt-5 tracking-[-.025em]" data-en="Commissioned scans">Bản quét theo yêu cầu</h3>
+      <p class="mt-4 text-bonedim leading-[1.75]"
+         data-en="Site management boards, tourism operators and brands that need their own scan, higher detail, or a viewer embedded in their own website — get in touch for a quote based on the size of the site.">
+        Ban quản lý di tích, đơn vị du lịch và thương hiệu cần bản quét riêng, độ chi tiết cao,
+        hoặc muốn nhúng viewer vào website của mình — liên hệ để nhận báo giá theo quy mô công trình.
+      </p>
+      <ul class="mt-6 space-y-3 list-none p-0 text-[.9375rem]">
+        <li class="flex gap-3 text-bonedim"><span class="text-psh font-mono text-xs mt-1 flex-none">→</span> <span data-en="Scanning scheduled around your calendar.">Quét riêng theo lịch của đơn vị.</span></li>
+        <li class="flex gap-3 text-bonedim"><span class="text-psh font-mono text-xs mt-1 flex-none">→</span> <span data-en="Viewer embedded in your website, kiosk or app.">Nhúng viewer vào website, kiosk hoặc ứng dụng.</span></li>
+        <li class="flex gap-3 text-bonedim"><span class="text-psh font-mono text-xs mt-1 flex-none">→</span> <span data-en="Source data handed over for archival and restoration.">Bàn giao dữ liệu gốc phục vụ lưu trữ và trùng tu.</span></li>
+      </ul>
+      <a class="btn btn--ghost mt-8" href="#lien-he" data-en="Request a quote">Nhận báo giá</a>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ LIÊN HỆ ============================ -->
+<section id="lien-he" class="mx-auto max-w-shell px-5 sm:px-8 pt-24 lg:pt-36 pb-24 lg:pb-32">
+  <div class="region-head rise">
+    <h2 class="u-display text-bone text-[clamp(1.9rem,4.4vw,3rem)] m-0" data-en="Contact">Liên hệ</h2>
+  </div>
+
+  <div class="grid lg:grid-cols-[1fr_360px] gap-5 mt-10 items-start">
+    <form id="contact-form" class="surface-raised p-8 lg:p-10 rise" novalidate>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label class="field-label" for="f-name" data-en="Full name">Họ và tên</label>
+          <input class="field" id="f-name" name="name" type="text" required autocomplete="name" placeholder="Nguyễn Văn A" data-en-placeholder="Jane Doe">
+        </div>
+        <div>
+          <label class="field-label" for="f-email" data-en="Email">Email</label>
+          <input class="field" id="f-email" name="email" type="email" required autocomplete="email" placeholder="ban@truong.edu.vn" data-en-placeholder="you@school.edu">
+        </div>
+        <div>
+          <label class="field-label" for="f-org" data-en="Organisation">Đơn vị</label>
+          <input class="field" id="f-org" name="org" type="text" autocomplete="organization" placeholder="Trường THPT / Bảo tàng / Công ty" data-en-placeholder="School / museum / company">
+        </div>
+        <div>
+          <label class="field-label" for="f-role" data-en="You are contacting as">Bạn liên hệ với tư cách</label>
+          <select class="field" id="f-role" name="role">
+            <option data-en="School / educational institution">Trường học / tổ chức giáo dục</option>
+            <option data-en="Site management board / museum">Ban quản lý di tích / bảo tàng</option>
+            <option data-en="Tourism business">Doanh nghiệp du lịch</option>
+            <option data-en="Press &amp; media">Báo chí &amp; truyền thông</option>
+            <option data-en="Other">Khác</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <label class="field-label" for="f-msg" data-en="Message">Nội dung</label>
+        <textarea class="field" id="f-msg" name="message" rows="5" required
+                  placeholder="Bạn cần bản scan nào, dùng cho việc gì, và mốc thời gian mong muốn."
+                  data-en-placeholder="Which scan you need, what for, and your timeline."></textarea>
+      </div>
+
+      <div class="mt-7 flex flex-wrap items-center gap-4">
+        <button class="btn btn--primary" type="submit" data-en="Send request">Gửi yêu cầu</button>
+        <p id="form-note" class="font-mono text-[11px] tracking-[.1em] uppercase text-bonemute m-0" role="status" aria-live="polite"
+           data-en="Schools get a reply within 3 working days">
+          Trường học được phản hồi trong 3 ngày làm việc
+        </p>
+      </div>
+    </form>
+
+    <aside class="surface p-8 rise">
+      <p class="u-eyebrow" data-en="Direct contact">Liên hệ trực tiếp</p>
+      <dl class="mt-6 space-y-6 m-0">
+        <div>
+          <dt class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Email">Email</dt>
+          <dd class="m-0 mt-2"><a class="foot-link font-medium" href="mailto:lienhe@pshheritage.vn">lienhe@pshheritage.vn</a></dd>
+        </div>
+        <div>
+          <dt class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Education programme">Chương trình giáo dục</dt>
+          <dd class="m-0 mt-2"><a class="foot-link font-medium" href="mailto:truonghoc@pshheritage.vn">truonghoc@pshheritage.vn</a></dd>
+        </div>
+        <div>
+          <dt class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Phone">Điện thoại</dt>
+          <dd class="m-0 mt-2 text-bone font-medium">+84 000 000 000</dd>
+        </div>
+      </dl>
+      <p class="mt-8 pt-6 hairline text-bonemute text-[.8125rem] leading-[1.7] m-0"
+         data-en="Want to look first? <a class=&quot;text-lime no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-lime&quot; href=&quot;gallery.html&quot;>Open the scan library</a> and pick any monument.">
+        Muốn xem trước đã? <a class="text-lime no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-lime" href="gallery.html">Mở thư viện scan</a>
+        và chọn một di tích bất kỳ.
+      </p>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ CHÂN TRANG ============================ -->
+<footer class="hairline">
+  <div class="mx-auto max-w-shell px-5 sm:px-8 py-14">
+    <div class="grid md:grid-cols-[1.4fr_1fr_1fr] gap-10">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="mark" aria-hidden="true"><i></i></span>
+          <span class="font-display font-extrabold tracking-[-.02em] text-bone text-[15px]">PSH HERITAGE</span>
+        </div>
+        <p class="mt-5 text-bonemute text-[.875rem] leading-[1.75] max-w-[38ch]"
+           data-en="A partnership between PSH Design and Pigo Tour, preserving Vietnam's monuments and heritage with 3D Gaussian Splatting.">
+          Chương trình hợp tác giữa PSH Design và Pigo Tour, lưu giữ di tích và di sản Việt Nam
+          bằng 3D Gaussian Splatting.
+        </p>
+        <div class="mt-6 flex items-center gap-3">
+          <span class="plaque h-9 px-2.5 w-[84px]"><img src="brand_assets/pshlogo.jpg" alt="PSH Design" class="max-h-[26px] object-contain"></span>
+          <span class="plaque h-9 w-9"><img src="brand_assets/pigotourlogo.png" alt="Pigo Tour" class="max-h-[24px] object-contain"></span>
+        </div>
+      </div>
+
+      <nav aria-label="Liên kết trang" data-en-aria-label="Site links">
+        <p class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Pages">Trang</p>
+        <ul class="mt-5 space-y-3 list-none p-0 text-[.9375rem]">
+          <li><a class="foot-link" href="gallery.html" data-en="Scan library">Thư viện scan</a></li>
+          <li><a class="foot-link" href="#cong-nghe" data-en="3DGS technology">Công nghệ 3DGS</a></li>
+          <li><a class="foot-link" href="#gioi-thieu" data-en="About us">Về chúng tôi</a></li>
+          <li><a class="foot-link" href="#giao-duc" data-en="Schools programme">Chương trình trường học</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <p class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Contact">Liên hệ</p>
+        <ul class="mt-5 space-y-3 list-none p-0 text-[.9375rem]">
+          <li><a class="foot-link" href="mailto:lienhe@pshheritage.vn">lienhe@pshheritage.vn</a></li>
+          <li><a class="foot-link" href="mailto:truonghoc@pshheritage.vn">truonghoc@pshheritage.vn</a></li>
+          <li><a class="foot-link" href="#lien-he" data-en="Request a scan">Gửi yêu cầu quét</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 hairline flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+      <p class="font-mono text-[10px] tracking-[.16em] uppercase text-bonemute m-0"
+         data-en="© <span data-year>2026</span> PSH Design × Pigo Tour">
+        © <span data-year>2026</span> PSH Design × Pigo Tour
+      </p>
+      <p class="font-mono text-[10px] tracking-[.16em] uppercase text-bonemute m-0" data-en="Free for education in Vietnam">
+        Miễn phí cho giáo dục Việt Nam
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/heritage-data.js"></script>
+<script src="assets/i18n.js"></script>
+<script src="assets/psh.js"></script>
+
+<!-- ===================== Dấu ấn hero: đám mây splat ===================== -->
+<script>
+(function () {
+  'use strict';
+  var cv = document.getElementById('splat');
+  if (!cv || !cv.getContext) return;
+
+  var ctx = cv.getContext('2d');
+  var reduce = window.PSH_STILL || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = 0, H = 0, pts = [], raf = 0, t0 = 0, mx = 0, my = 0, tmx = 0, tmy = 0;
+
+  /* Bóng mái đình Bắc Bộ hai tầng — vẽ ra canvas ẩn rồi rải hạt vào vùng có mực. */
+  function silhouette(g, w, h) {
+    g.clearRect(0, 0, w, h);
+    g.fillStyle = '#fff'; g.strokeStyle = '#fff';
+    g.lineCap = 'round'; g.lineJoin = 'round';
+
+    g.lineWidth = h * 0.115;                       // mái trên, hai đầu đao cong lên
+    g.beginPath();
+    g.moveTo(w * 0.07, h * 0.325);
+    g.quadraticCurveTo(w * 0.17, h * 0.400, w * 0.31, h * 0.345);
+    g.quadraticCurveTo(w * 0.42, h * 0.302, w * 0.50, h * 0.212);
+    g.quadraticCurveTo(w * 0.58, h * 0.302, w * 0.69, h * 0.345);
+    g.quadraticCurveTo(w * 0.83, h * 0.400, w * 0.93, h * 0.325);
+    g.stroke();
+
+    g.lineWidth = h * 0.085;                       // mái dưới, vươn rộng hơn
+    g.beginPath();
+    g.moveTo(w * 0.03, h * 0.532);
+    g.quadraticCurveTo(w * 0.15, h * 0.596, w * 0.31, h * 0.540);
+    g.quadraticCurveTo(w * 0.42, h * 0.505, w * 0.50, h * 0.452);
+    g.quadraticCurveTo(w * 0.58, h * 0.505, w * 0.69, h * 0.540);
+    g.quadraticCurveTo(w * 0.85, h * 0.596, w * 0.97, h * 0.532);
+    g.stroke();
+
+    g.beginPath();                                  // hoa văn nóc
+    g.arc(w * 0.50, h * 0.182, h * 0.021, 0, 6.2832);
+    g.fill();
+
+    var px = [0.185, 0.39, 0.61, 0.815], pw = w * 0.052;
+    for (var i = 0; i < px.length; i++) {           // hàng cột
+      g.fillRect(w * px[i] - pw / 2, h * 0.60, pw, h * 0.255);
+    }
+    g.fillRect(w * 0.06, h * 0.855, w * 0.88, h * 0.042);   // thềm
+    g.fillRect(w * 0.12, h * 0.905, w * 0.76, h * 0.028);
+  }
+
+  function build() {
+    var sw = 420, sh = Math.max(120, Math.round(sw * (H / W)));
+    var off = document.createElement('canvas');
+    off.width = sw; off.height = sh;
+    var g = off.getContext('2d');
+    silhouette(g, sw, sh);
+    var data = g.getImageData(0, 0, sw, sh).data;
+
+    var want = Math.max(1800, Math.min(3200, Math.round(W * H / 115)));
+    var targets = [], guard = 0;
+    while (targets.length < want && guard < want * 80) {
+      guard++;
+      var x = Math.random() * sw, y = Math.random() * sh;
+      if (data[((y | 0) * sw + (x | 0)) * 4 + 3] > 130) targets.push([x / sw, y / sh]);
+    }
+
+    pts = targets.map(function (t) {
+      var d = Math.random();                         // độ sâu giả — quyết định màu, cỡ hạt và biên độ trôi
+      var a = Math.random() * 6.2832, r = 0.12 + Math.random() * 0.3;
+      return {
+        tx: t[0], ty: t[1],
+        x: t[0] + Math.cos(a) * r,
+        y: t[1] + Math.sin(a) * r,
+        d: d,
+        r: 0.6 + d * 1.35,
+        ph: Math.random() * 6.2832,
+        sp: 0.55 + Math.random() * 0.7
+      };
+    });
+
+    stampCount();
+  }
+
+  /* Số hạt hiện trong chú thích — phải điền lại sau mỗi lần đổi ngôn ngữ. */
+  function stampCount() {
+    var badge = document.getElementById('splat-count');
+    if (badge && pts.length) {
+      badge.textContent = pts.length.toLocaleString(
+        window.PSH_LANG.get() === 'en' ? 'en-US' : 'vi-VN');
+    }
+  }
+  document.addEventListener('psh:lang', stampCount);
+
+  /* Màu theo lớp sâu: xa ngả xanh Pigo, giữa là màu đá, gần nhất điểm đỏ PSH. */
+  function tone(d) {
+    if (d > 0.885) return '237,28,36';      // lớp gần nhất — đỏ PSH
+    if (d < 0.26)  return '109,183,96';     // lớp xa nhất — xanh Pigo
+    return '226,219,204';                   // lớp giữa — màu đá
+  }
+
+  function resize() {
+    var box = cv.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(1, Math.round(box.width));
+    H = Math.max(1, Math.round(box.height));
+    cv.width = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    build();
+    if (reduce) { pts.forEach(function (p) { p.x = p.tx; p.y = p.ty; }); draw(0); }
+  }
+
+  function draw(el) {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      var bx = Math.sin(el * 0.55 + p.ph) * 0.0022 * (0.35 + p.d);
+      var by = Math.cos(el * 0.47 + p.ph * 1.3) * 0.0022 * (0.35 + p.d);
+      var X = (p.x + bx) * W + mx * (p.d - 0.5) * 30;
+      var Y = (p.y + by) * H + my * (p.d - 0.5) * 30;
+      ctx.fillStyle = 'rgba(' + tone(p.d) + ',' + (0.3 + p.d * 0.6).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.arc(X, Y, p.r, 0, 6.2832);
+      ctx.fill();
+    }
+  }
+
+  function frame(ts) {
+    if (!t0) t0 = ts;
+    var el = (ts - t0) / 1000;
+    mx += (tmx - mx) * 0.06;
+    my += (tmy - my) * 0.06;
+    for (var i = 0; i < pts.length; i++) {          // hạt tụ dần về vị trí — "bản quét đang hiện ra"
+      var p = pts[i];
+      p.x += (p.tx - p.x) * 0.075 * p.sp;
+      p.y += (p.ty - p.y) * 0.075 * p.sp;
+    }
+    draw(el);
+    raf = requestAnimationFrame(frame);
+  }
+
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(resize, 180);
+  });
+
+  if (!reduce) {
+    cv.parentElement.addEventListener('pointermove', function (e) {
+      var b = cv.getBoundingClientRect();
+      tmx = ((e.clientX - b.left) / b.width - 0.5) * 2;
+      tmy = ((e.clientY - b.top) / b.height - 0.5) * 2;
+    });
+    cv.parentElement.addEventListener('pointerleave', function () { tmx = 0; tmy = 0; });
+  }
+
+  resize();
+  if (!reduce) raf = requestAnimationFrame(frame);
+})();
+</script>
+
+<!-- ===================== Form liên hệ → mở sẵn email ===================== -->
+<script>
+(function () {
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  var note = document.getElementById('form-note');
+  var T = window.PSH_LANG;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      note.textContent = T.t('Vui lòng điền họ tên, email và nội dung.',
+                             'Please fill in your name, email and message.');
+      note.style.color = '#ff3b41';
+      form.reportValidity();
+      return;
+    }
+    var f = new FormData(form);
+    var roleIndex = document.getElementById('f-role').selectedIndex;
+    var edu = roleIndex === 0;                     // mục đầu tiên luôn là trường học
+    var to = edu ? 'truonghoc@pshheritage.vn' : 'lienhe@pshheritage.vn';
+
+    var body = [
+      T.t('Họ và tên: ', 'Full name: ') + f.get('name'),
+      'Email: ' + f.get('email'),
+      T.t('Đơn vị: ', 'Organisation: ') + (f.get('org') || '—'),
+      T.t('Tư cách: ', 'Contacting as: ') + f.get('role'),
+      '',
+      f.get('message')
+    ].join('\n');
+
+    window.location.href = 'mailto:' + to
+      + '?subject=' + encodeURIComponent('[PSH Heritage] ' + f.get('role') + ' — ' + f.get('name'))
+      + '&body=' + encodeURIComponent(body);
+
+    note.textContent = T.t('Đã mở ứng dụng email của bạn với nội dung soạn sẵn.',
+                           'Your email app has opened with the message ready to send.');
+    note.style.color = '#8dc63f';
+  });
+})();
+</script>
+
+</body>
+</html>

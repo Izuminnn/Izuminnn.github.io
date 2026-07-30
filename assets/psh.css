@@ -1,0 +1,366 @@
+/* =========================================================
+   PSH Heritage — hệ thống thiết kế dùng chung
+   Bảng màu suy ra từ 2 logo:
+     · Đỏ  #ED1C24  — màu chung của cả PSH Design và Pigo Tour (điểm giao)
+     · Xanh #1B9E4B → #8DC63F — vòng bánh răng Pigo Tour
+     · Đen PSH được đẩy sang "đồng gỉ" (bronze patina) để hòa với xanh
+   ========================================================= */
+
+:root{
+  /* Nền — đen ngả đồng gỉ, phân tầng base → elevated → floating */
+  --ink-900:#080d0a;
+  --ink-800:#0c1410;
+  --ink-700:#111c16;
+  --ink-600:#17261e;
+  --ink-500:#1e3227;
+  --ink-400:#2a4436;
+
+  /* Thương hiệu */
+  --psh:#ed1c24;
+  --psh-bright:#ff3b41;
+  --pigo:#1b9e4b;
+  --lime:#8dc63f;
+
+  /* Trung tính ấm — đá ong, vữa vôi, đồng */
+  --bone:#ede6d8;
+  --bone-dim:#b8ae9c;
+  --bone-mute:#7f8a82;
+  --brass:#c9a227;
+
+  /* Nhịp khoảng cách */
+  --sp-1:.25rem; --sp-2:.5rem;  --sp-3:.75rem; --sp-4:1rem;   --sp-5:1.5rem;
+  --sp-6:2rem;   --sp-7:3rem;   --sp-8:4rem;   --sp-9:6rem;   --sp-10:8rem;
+
+  /* Bo góc thấp — bám theo góc vuông sắc của logo PSH */
+  --r-sm:2px; --r-md:4px; --r-lg:8px;
+
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+
+  /* Đổ bóng nhiều lớp, ám màu, độ mờ thấp */
+  --shade-1:0 1px 2px rgba(0,0,0,.55), 0 6px 16px -6px rgba(0,0,0,.5);
+  --shade-2:0 2px 4px rgba(0,0,0,.5), 0 18px 42px -14px rgba(0,0,0,.72), 0 0 0 1px rgba(237,28,36,.05);
+  --shade-red:0 10px 34px -12px rgba(237,28,36,.5);
+  --shade-green:0 10px 34px -12px rgba(27,158,75,.42);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  background-color:var(--ink-800);
+  background-image:
+    radial-gradient(1100px 720px at 84% -10%, rgba(237,28,36,.15), transparent 62%),
+    radial-gradient(920px 640px at 4% 8%,    rgba(27,158,75,.12), transparent 60%),
+    radial-gradient(1300px 900px at 50% 106%,rgba(141,198,63,.055),transparent 66%);
+  background-attachment:fixed;
+  color:var(--bone);
+  font-family:'Be Vietnam Pro',system-ui,-apple-system,sans-serif;
+  font-weight:400;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+/* Hạt nhiễu SVG — thêm chất liệu, tránh cảm giác phẳng */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.045;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection{background:var(--psh);color:#fff}
+
+/* ---------- Chữ ---------- */
+.u-display{font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.03em;line-height:.98;text-transform:uppercase}
+.u-serif{font-family:'Lora',Georgia,serif}
+.u-mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+
+.u-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:.6875rem;font-weight:500;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--bone-mute);
+}
+.u-eyebrow .dot{color:var(--psh-bright)}
+
+/* ---------- Dấu hiệu nhận diện: khung lồng nhau, lấy từ logo PSH ----------
+   Ba khung lệch nhau = ba lát cắt chiều sâu = cách 3DGS ghi lại không gian. */
+.mark{position:relative;display:block;width:30px;height:26px;flex:none}
+.mark i{position:absolute;inset:0;display:block}
+.mark::before,.mark::after,.mark i::before,.mark i::after{
+  content:'';position:absolute;width:19px;height:13px;
+  transition:transform .5s var(--ease);
+}
+.mark::before,.mark i::before{border-top:2px solid var(--psh);border-left:2px solid var(--psh)}
+.mark::after,.mark i::after{border-bottom:2px solid var(--bone);border-right:2px solid var(--bone)}
+.mark::before{top:0;left:0}
+.mark i::before{top:5px;left:6px}
+.mark::after{bottom:0;right:0}
+.mark i::after{bottom:5px;right:6px}
+.group:hover .mark::before{transform:translate3d(-2px,-2px,0)}
+.group:hover .mark::after{transform:translate3d(2px,2px,0)}
+
+/* Khung lồng bao quanh khối nội dung — dùng lại cùng ngữ pháp hình học */
+.frame{position:relative}
+.frame::before,.frame::after{
+  content:'';position:absolute;pointer-events:none;z-index:2;
+  width:clamp(28px,22%,120px);height:clamp(28px,26%,110px);
+  transition:transform .5s var(--ease),opacity .5s var(--ease);
+}
+.frame::before{
+  top:-9px;left:-9px;
+  border-top:2px solid var(--psh);border-left:2px solid var(--psh);
+}
+.frame::after{
+  bottom:-9px;right:-9px;
+  border-bottom:2px solid var(--pigo);border-right:2px solid var(--pigo);
+}
+.frame:hover::before,.frame:focus-within::before{transform:translate3d(-5px,-5px,0)}
+.frame:hover::after,.frame:focus-within::after{transform:translate3d(5px,5px,0)}
+
+/* ---------- Bề mặt ---------- */
+.surface{
+  background:linear-gradient(158deg,var(--ink-700) 0%,var(--ink-800) 100%);
+  border:1px solid var(--ink-500);
+  border-radius:var(--r-md);
+  box-shadow:var(--shade-1);
+}
+.surface-raised{
+  background:linear-gradient(158deg,var(--ink-600) 0%,var(--ink-700) 100%);
+  border:1px solid var(--ink-400);
+  border-radius:var(--r-md);
+  box-shadow:var(--shade-2);
+}
+.hairline{border-top:1px solid var(--ink-500)}
+
+/* ---------- Nút ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  font-family:'Archivo',sans-serif;font-weight:700;font-size:.8125rem;
+  letter-spacing:.09em;text-transform:uppercase;line-height:1;
+  padding:1rem 1.5rem;border-radius:var(--r-md);border:1px solid transparent;
+  text-decoration:none;cursor:pointer;
+  transition:transform .3s var(--ease),background-color .3s var(--ease),
+             border-color .3s var(--ease),box-shadow .3s var(--ease),color .3s var(--ease);
+}
+.btn:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+.btn:active{transform:translate3d(0,1px,0) scale(.985)}
+.btn--primary{background:var(--psh);color:#fff;box-shadow:var(--shade-red)}
+.btn--primary:hover{background:var(--psh-bright);transform:translate3d(0,-2px,0);box-shadow:0 16px 42px -12px rgba(237,28,36,.66)}
+.btn--ghost{border-color:var(--ink-400);color:var(--bone);background:rgba(237,230,216,.025)}
+.btn--ghost:hover{border-color:var(--lime);color:var(--lime);transform:translate3d(0,-2px,0);box-shadow:var(--shade-green)}
+.btn--sm{padding:.65rem 1rem;font-size:.6875rem;letter-spacing:.1em}
+
+/* ---------- Thanh điều hướng ---------- */
+.nav{
+  transition:background-color .4s var(--ease),border-color .4s var(--ease),backdrop-filter .4s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.is-stuck{
+  background:rgba(9,16,12,.82);
+  backdrop-filter:blur(14px) saturate(1.3);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+  border-bottom-color:var(--ink-500);
+}
+.nav-link{
+  position:relative;font-family:'Archivo',sans-serif;font-weight:600;font-size:.8125rem;
+  letter-spacing:.05em;color:var(--bone-dim);text-decoration:none;
+  padding:.5rem .75rem;border-radius:var(--r-sm);
+  transition:color .28s var(--ease),transform .28s var(--ease);
+}
+.nav-link::after{
+  content:'';position:absolute;left:.75rem;right:.75rem;bottom:.15rem;height:1.5px;
+  background:var(--psh);transform:scaleX(0);transform-origin:left;
+  transition:transform .34s var(--ease);
+}
+.nav-link:hover{color:var(--bone)}
+.nav-link:hover::after,.nav-link[aria-current="page"]::after{transform:scaleX(1)}
+.nav-link[aria-current="page"]{color:var(--bone)}
+.nav-link:focus-visible{outline:2px solid var(--lime);outline-offset:2px;color:var(--bone)}
+
+/* ---------- Nút chuyển ngôn ngữ ---------- */
+.lang{display:inline-flex;border:1px solid var(--ink-400);border-radius:var(--r-md);overflow:hidden;flex:none}
+.lang-btn{
+  font-family:'JetBrains Mono',monospace;font-size:.625rem;font-weight:500;
+  letter-spacing:.14em;line-height:1;
+  padding:.6rem .62rem;border:0;background:transparent;color:var(--bone-mute);cursor:pointer;
+  transition:color .28s var(--ease),background-color .28s var(--ease);
+}
+.lang-btn + .lang-btn{border-left:1px solid var(--ink-400)}
+.lang-btn:hover{color:var(--bone)}
+.lang-btn:focus-visible{outline:2px solid var(--lime);outline-offset:-2px;color:var(--bone)}
+.lang-btn:active{transform:translate3d(0,1px,0)}
+.lang-btn[aria-pressed="true"]{background:var(--psh);color:#fff}
+
+/* ---------- Nhãn / chip ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:'JetBrains Mono',monospace;font-size:.625rem;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:.3rem .55rem;border-radius:var(--r-sm);
+  border:1px solid var(--ink-400);color:var(--bone-mute);
+  background:rgba(237,230,216,.02);
+}
+.chip--unesco{border-color:rgba(201,162,39,.42);color:var(--brass);background:rgba(201,162,39,.07)}
+.chip--live{border-color:rgba(141,198,63,.4);color:var(--lime);background:rgba(141,198,63,.07)}
+.chip--soon{border-color:rgba(184,174,156,.28);color:var(--bone-mute)}
+.chip--edu{border-color:rgba(237,28,36,.42);color:var(--psh-bright);background:rgba(237,28,36,.07)}
+
+/* Chip lọc bấm được */
+.filter-chip{
+  font-family:'Archivo',sans-serif;font-weight:600;font-size:.75rem;letter-spacing:.06em;
+  padding:.55rem .95rem;border-radius:var(--r-md);cursor:pointer;
+  border:1px solid var(--ink-400);color:var(--bone-dim);background:transparent;
+  transition:color .28s var(--ease),border-color .28s var(--ease),background-color .28s var(--ease),transform .28s var(--ease);
+}
+.filter-chip:hover{color:var(--bone);border-color:var(--bone-mute);transform:translate3d(0,-1px,0)}
+.filter-chip:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.filter-chip[aria-pressed="true"]{background:var(--psh);border-color:var(--psh);color:#fff;box-shadow:var(--shade-red)}
+
+/* ---------- Ô nhập ---------- */
+.field{
+  width:100%;background:var(--ink-900);border:1px solid var(--ink-500);
+  border-radius:var(--r-md);color:var(--bone);
+  padding:.85rem 1rem;font-family:'Be Vietnam Pro',sans-serif;font-size:.9375rem;line-height:1.5;
+  transition:border-color .28s var(--ease),box-shadow .28s var(--ease);
+}
+.field::placeholder{color:var(--bone-mute)}
+.field:hover{border-color:var(--ink-400)}
+.field:focus{outline:none;border-color:var(--psh);box-shadow:0 0 0 3px rgba(237,28,36,.14)}
+.field-label{
+  display:block;font-family:'JetBrains Mono',monospace;font-size:.625rem;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--bone-mute);margin-bottom:.5rem;
+}
+select.field{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%237f8a82' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+
+/* ---------- Ảnh: phủ gradient + lớp màu mix-blend ---------- */
+.shot{position:relative;overflow:hidden;border-radius:var(--r-md);background:var(--ink-900)}
+.shot img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+/* Lớp chỉnh màu: tông phẳng để ảnh placeholder không lộ vệt gradient,
+   nhưng vẫn kéo ảnh thật về đúng bảng màu của trang. */
+.shot::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:rgba(158,214,180,.34);
+  mix-blend-mode:multiply;
+}
+.shot::after{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(to top,rgba(6,11,8,.78) 0%,rgba(6,11,8,.2) 55%,transparent 100%);
+}
+.shot > .shot-body{position:relative;z-index:3}
+.card:hover .shot img{transform:scale(1.045)}
+
+/* ---------- Xuất hiện khi cuộn ---------- */
+.rise{opacity:0;transform:translate3d(0,20px,0);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rise.is-in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rise{opacity:1;transform:none;transition:none}
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+
+/* ---------- Vạch số liệu ---------- */
+.stat-rail{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:768px){.stat-rail{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat{padding:1.75rem 1.5rem;border-left:1px solid var(--ink-500)}
+.stat:first-child{border-left:0}
+@media(min-width:768px){.stat:first-child{border-left:0}}
+.stat-num{font-family:'Archivo',sans-serif;font-weight:800;font-size:2.25rem;line-height:1;letter-spacing:-.04em;color:var(--bone)}
+.stat-num .unit{color:var(--psh-bright)}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--bone-mute);margin-top:.6rem}
+
+/* ---------- Bảng logo công ty (logo nền sáng đặt trên nền tối) ---------- */
+.plaque{
+  background:var(--bone);border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.14),var(--shade-1);
+}
+.plaque img{display:block;max-width:100%;height:auto;mix-blend-mode:multiply}
+
+/* ---------- Bản đồ (trang gallery) ---------- */
+.map-shell{height:300px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--ink-500);box-shadow:var(--shade-2)}
+@media(min-width:1024px){.map-shell{height:440px}}
+#map{width:100%;height:100%;background:var(--ink-900)}
+.leaflet-container{background:var(--ink-900)!important;font-family:'JetBrains Mono',monospace!important}
+.leaflet-control-attribution{background:rgba(8,13,10,.8)!important;color:var(--bone-mute)!important;font-size:9px!important}
+.leaflet-control-attribution a{color:var(--bone-mute)!important}
+.leaflet-control-zoom a{
+  background:var(--ink-700)!important;color:var(--bone)!important;
+  border-color:var(--ink-500)!important;
+}
+.leaflet-control-zoom a:hover{background:var(--ink-600)!important;color:var(--psh-bright)!important}
+
+/* Ghim bản đồ */
+.pin{position:relative;display:block;width:20px;height:20px}
+.pin b{
+  position:absolute;inset:5px;border-radius:50%;background:var(--lime);display:block;
+  box-shadow:0 0 0 2px rgba(8,13,10,.95), 0 0 12px rgba(141,198,63,.75);
+  transition:background-color .3s var(--ease),transform .4s var(--ease-spring),box-shadow .3s var(--ease);
+}
+.pin::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  border:1.5px solid rgba(141,198,63,.42);
+  transition:border-color .35s var(--ease),transform .45s var(--ease-spring);
+}
+.pin.is-soon b{background:var(--bone-mute);box-shadow:0 0 0 2px rgba(8,13,10,.95)}
+.pin.is-soon::after{border-color:rgba(184,174,156,.3)}
+.pin.is-active b{background:var(--psh);transform:scale(1.3);box-shadow:0 0 0 2px rgba(8,13,10,.95), 0 0 16px rgba(237,28,36,.9)}
+.pin.is-active::after{border-color:var(--psh);transform:scale(1.45)}
+
+/* ---------- Thẻ địa điểm ---------- */
+.card{
+  position:relative;display:flex;flex-direction:column;
+  background:linear-gradient(158deg,var(--ink-700) 0%,var(--ink-800) 100%);
+  border:1px solid var(--ink-500);border-radius:var(--r-md);overflow:hidden;
+  transition:transform .4s var(--ease),border-color .4s var(--ease),box-shadow .4s var(--ease);
+}
+.card:hover,.card.is-active{
+  transform:translate3d(0,-4px,0);
+  border-color:var(--ink-400);
+  box-shadow:var(--shade-2);
+}
+.card.is-active{border-color:rgba(237,28,36,.5)}
+/* Lát cắt chiều sâu trượt ngang khi hover — nhắc lại logo PSH */
+.card::before{
+  content:'';position:absolute;top:0;left:0;height:2px;width:100%;z-index:4;
+  background:linear-gradient(90deg,var(--psh) 0%,var(--psh) 34%,var(--pigo) 34%,var(--pigo) 62%,var(--lime) 62%);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .55s var(--ease);
+}
+.card:hover::before,.card.is-active::before,.card:focus-within::before{transform:scaleX(1)}
+.card-link{position:absolute;inset:0;z-index:5}
+.card-link:focus-visible{outline:2px solid var(--lime);outline-offset:-4px;border-radius:var(--r-md)}
+.card-name{font-family:'Lora',Georgia,serif;font-weight:600;font-size:1.0625rem;line-height:1.32;color:var(--bone);letter-spacing:-.005em}
+.card:hover .card-name,.card.is-active .card-name{color:#fff}
+
+/* Nút "Vị trí" nổi trên thẻ (dùng cho thiết bị cảm ứng, không có hover) */
+.locate{
+  position:relative;z-index:6;
+  display:inline-flex;align-items:center;gap:.35rem;
+  font-family:'JetBrains Mono',monospace;font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--bone-mute);background:transparent;border:1px solid var(--ink-400);
+  border-radius:var(--r-sm);padding:.3rem .5rem;cursor:pointer;
+  transition:color .28s var(--ease),border-color .28s var(--ease);
+}
+.locate:hover{color:var(--lime);border-color:var(--lime)}
+.locate:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+
+/* ---------- Tiêu đề nhóm vùng / tỉnh ---------- */
+.region-head{display:flex;align-items:baseline;gap:1rem;padding-bottom:.9rem;border-bottom:1px solid var(--ink-500)}
+.region-name{font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;font-size:1.5rem;color:var(--bone)}
+.city-head{
+  display:flex;align-items:center;gap:.75rem;
+  font-family:'JetBrains Mono',monospace;font-size:.6875rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-mute);
+}
+.city-head::after{content:'';flex:1;height:1px;background:var(--ink-500)}
+
+/* ---------- Chân trang ---------- */
+.foot-link{color:var(--bone-dim);text-decoration:none;transition:color .28s var(--ease),transform .28s var(--ease);display:inline-block}
+.foot-link:hover{color:var(--psh-bright);transform:translate3d(2px,0,0)}
+.foot-link:focus-visible{outline:2px solid var(--lime);outline-offset:2px;color:var(--bone)}
+
+/* ---------- Bỏ qua tới nội dung ---------- */
+.skip{position:absolute;left:-9999px;top:0;z-index:100}
+.skip:focus{left:1rem;top:1rem;padding:.75rem 1rem;background:var(--psh);color:#fff;border-radius:var(--r-md);font-weight:700}
