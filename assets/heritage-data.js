@@ -106,7 +106,6 @@ window.PSH_HERITAGE = [
             lat:20.9248, lng:105.8920,
             viewer:'',
             photo:'/images/dinhlangvanphuc.jpg',
-            gmaps:'https://maps.app.goo.gl/Q7WBmkrzyeGsjXhV7',
             splats:'—', captured:'Dự kiến 08/2026', captured_en:'Planned 08/2026', unesco:false, tone:3 },
         ]
       },
