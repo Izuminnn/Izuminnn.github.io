@@ -74,7 +74,7 @@ window.PSH_HERITAGE = [
         items: [
           { name:'Cổng làng lụa Vạn Phúc', name_en:'Van Phuc Silk Village Gate',
             type:'Di sản', type_en:'Heritage',
-            era:'', era_en:'',
+            era:'Thế kỷ XI', era_en:'11th century',
             lat:20.9792, lng:105.7730,
             gmaps:'https://maps.app.goo.gl/3QM56cTfpEiNJoEd7',
             viewer:'https://lcc-viewer.xgrids.com/pub/32ef8d04-5ad8-4e8a-a9d2-42ae8e4d08db',
@@ -83,7 +83,7 @@ window.PSH_HERITAGE = [
 
           { name:'Chùa Vạn Phúc', name_en:'Van Phuc Temple',
             type:'Di sản', type_en:'Heritage',
-            era:'', era_en:'',
+            era:'1070', era_en:'1070',
             lat:20.9794, lng:105.7728,
             viewer:'https://lcc-viewer.xgrids.com/pub/1f406c03-f5bd-4984-9567-0f4468e7c208',
             photo:'images/chuavanphuc.webp',
@@ -91,7 +91,7 @@ window.PSH_HERITAGE = [
 
           { name:'Cầu ngói làng lụa', name_en:'Pagoda',
             type:'Di sản', type_en:'Heritage',
-            era:'', era_en:'',
+            era:'1049', era_en:'1049',
             lat:21.0359, lng:105.8339,
             viewer:'',
             photo:'images/caungoilanglua.jpg',
@@ -99,11 +99,11 @@ window.PSH_HERITAGE = [
 
           { name:'Đình làng Vạn Phúc', name_en:"Van Phuc Communal House",
             type:'Di sản', type_en:'Heritage',
-            era:'', era_en:'',
+            era:'1886', era_en:'1886',
             lat:21.0288, lng:105.8489,
             viewer:'',
             photo:'images/dinhlangvanphuc.jpg',
-            splats:'—', captured:'Dự kiến 08/2026', captured_en:'Planned 08/2026', unesco:false, tone:3 }
+            splats:'—', captured:'Dự kiến 08/2026', captured_en:'Planned 08/2026', unesco:false, tone:3 },
         ]
       },
     ]

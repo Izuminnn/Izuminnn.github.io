@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title data-en="PSH Heritage — Vietnam's heritage in 3D Gaussian Splatting">PSH Heritage — Di sản Việt Nam bằng 3D Gaussian Splatting</title>
-<meta name="description" content="PSH Design × Pigo Tour quét và dựng lại di tích, di sản Việt Nam bằng công nghệ 3D Gaussian Splatting. Miễn phí cho trường học và tổ chức giáo dục."
-      data-en-content="PSH Design × Pigo Tour scan and rebuild Vietnam's monuments and heritage sites with 3D Gaussian Splatting. Free for schools and educational institutions.">
+<title data-en="PSH Heritage — Vietnam's heritage in 3DGS">PSH Heritage — Di sản Việt Nam bằng 3DGS</title>
+<meta name="description" content="PSH Design × Pigo Tour quét và dựng lại di tích, di sản Việt Nam bằng công nghệ 3DGS. Miễn phí cho trường học và tổ chức giáo dục."
+      data-en-content="PSH Design × Pigo Tour scan and rebuild Vietnam's monuments and heritage sites with 3DGS. Free for schools and educational institutions.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,22 +116,23 @@ tailwind.config = {
 
       <!-- Cột chữ -->
       <div>
-        <p class="u-eyebrow rise" data-en="3D Gaussian Splatting <span class=&quot;dot&quot;>·</span> Vietnam's monuments &amp; heritage">3D Gaussian Splatting <span class="dot">·</span> Di tích &amp; di sản Việt Nam</p>
+        <p class="u-eyebrow rise" data-en="3DGS <span class=&quot;dot&quot;>·</span> Vietnam's monuments &amp; heritage">3DGS <span class="dot">·</span> Số hóa Di tích &amp; di sản Việt Nam</p>
 
         <h1 class="u-display text-bone mt-6 text-[clamp(2.5rem,5.3vw,4.25rem)] rise"
-            data-en="Vietnam's heritage,<br>captured <span class=&quot;text-psh&quot;>light</span><br>by light">
+            data-en="Vietnam's<br>heritage, from<br><span class=&quot;text-psh&quot;>millions of</span><br>points of light">
           Di sản Việt Nam,<br>
-          quét lại <span class="text-psh">từng hạt</span><br>
-          ánh sáng
+          dựng lại từ<br>
+          <span class="text-psh">hàng triệu</span><br>
+          điểm sáng
         </h1>
 
         <p class="mt-7 text-bonedim text-[1.0625rem] leading-[1.75] max-w-[46ch] rise"
-           data-en="<strong class=&quot;text-bone font-semibold&quot;>PSH Heritage</strong> is a partnership between <strong class=&quot;text-bone font-semibold&quot;>PSH Design</strong> and <strong class=&quot;text-bone font-semibold&quot;>Pigo Tour</strong>: Vietnam's monuments and heritage sites rebuilt with 3D Gaussian Splatting. Not a photo, not a video — you step into the actual space and look from any angle, right in your browser.">
+           data-en="<strong class=&quot;text-bone font-semibold&quot;>PSH Heritage</strong> is a partnership between <strong class=&quot;text-bone font-semibold&quot;>PSH Design</strong> and <strong class=&quot;text-bone font-semibold&quot;>Pigo Tour</strong>: Vietnam's monuments and heritage sites rebuilt with 3DGS. Not a photo, not a video — you step into the actual space and look from any angle, right in your browser.">
           <strong class="text-bone font-semibold">PSH Heritage</strong> là chương trình hợp tác giữa
           <strong class="text-bone font-semibold">PSH Design</strong> và
-          <strong class="text-bone font-semibold">Pigo Tour</strong>: dựng lại các di tích, di sản Việt Nam
-          bằng 3D Gaussian Splatting. Không phải ảnh, không phải video — bạn bước vào đúng không gian đó,
-          xoay mọi góc, ngay trên trình duyệt.
+          <strong class="text-bone font-semibold">Pigo Tour</strong>: dựng lại và số hóa các di tích, di sản Việt Nam
+          bằng công nghệ 3DGS. Không phải ảnh, không phải video — bạn bước vào đúng không gian đó,
+          xoay mọi góc và khám phá mọi ngóc ngách như đang ở đó.
         </p>
 
         <div class="mt-9 flex flex-wrap gap-3 rise">
@@ -149,9 +150,13 @@ tailwind.config = {
         <div class="pt-8 border-t border-bone/25">
           <p class="font-mono text-[10px] tracking-[.22em] uppercase text-bonedim m-0" data-en="A partnership between">Chương trình hợp tác giữa</p>
           <div class="mt-4 flex items-center gap-5">
-            <span class="plaque h-[76px] w-[124px] px-3"><img src="brand_assets/pshlogo.jpg" alt="PSH Design" class="max-h-[64px] object-contain"></span>
+            <a class="plaque h-[76px] w-[124px] px-3" href="https://pshdesign.com" target="_blank" rel="noopener noreferrer"
+               aria-label="PSH Design — mở pshdesign.com trong tab mới" data-en-aria-label="PSH Design — open pshdesign.com in a new tab"
+            ><img src="brand_assets/pshlogo.jpg" alt="" class="max-h-[64px] object-contain"></a>
             <span class="w-px h-9 bg-ink-400" aria-hidden="true"></span>
-            <span class="plaque h-[76px] w-[80px] px-2"><img src="brand_assets/pigotourlogo.png" alt="Pigo Tour" class="max-h-[56px] object-contain"></span>
+            <a class="plaque h-[76px] w-[80px] px-2" data-brand="pigo" href="https://pigo.com.vn" target="_blank" rel="noopener noreferrer"
+               aria-label="Pigo Tour — mở pigo.com.vn trong tab mới" data-en-aria-label="Pigo Tour — open pigo.com.vn in a new tab"
+            ><img src="brand_assets/pigotourlogo.png" alt="" class="max-h-[56px] object-contain"></a>
           </div>
         </div>
       </div>
@@ -193,8 +198,8 @@ tailwind.config = {
       Không phải ảnh.<br>Không phải video.
     </h2>
     <p class="mt-6 text-bonedim leading-[1.75] rise"
-       data-en="Gaussian Splatting records a building as tens of millions of coloured points, each with its own direction and translucency. The result keeps the faded paint, the moss on the roof tiles and the sunlight crossing the courtyard — the things a hand-built model never gets right.">
-      Gaussian Splatting ghi lại công trình thành hàng chục triệu hạt sáng có màu, có hướng và có độ trong.
+       data-en="3DGS records a building as tens of millions of coloured points, each with its own direction and translucency. The result keeps the faded paint, the moss on the roof tiles and the sunlight crossing the courtyard — the things a hand-built model never gets right.">
+      3DGS ghi lại công trình thành hàng chục triệu hạt sáng có màu, có hướng và có độ trong.
       Kết quả giữ được cả nước sơn bạc màu, vệt rêu trên ngói và ánh nắng hắt qua sân — những thứ mô hình
       dựng tay không làm ra được.
     </p>
@@ -202,7 +207,7 @@ tailwind.config = {
 
   <ol class="mt-12 grid md:grid-cols-3 gap-5 list-none p-0">
     <li class="surface p-7 rise">
-      <span class="chip" data-en="Step 01 · Capture">Bước 01 · Ghi</span>
+      <span class="chip" data-en="Step 01 · Capture">Bước 01 · Quét</span>
       <h3 class="font-display font-bold text-bone text-xl mt-5 tracking-[-.02em]" data-en="On-site scanning">Quét thực địa</h3>
       <p class="mt-3 text-bonedim text-[.9375rem] leading-[1.7]"
          data-en="A handheld XGRIDS LiDAR rig walks the whole site, recording geometry and real light at the same time. A mid-sized monument takes about half a day.">
@@ -240,14 +245,16 @@ tailwind.config = {
   <div class="grid lg:grid-cols-2 gap-5 mt-10">
     <!-- PSH Design -->
     <article class="frame surface-raised p-8 lg:p-10 rise">
-      <div class="plaque h-[92px] w-[186px] px-4"><img src="brand_assets/pshlogo.jpg" alt="Logo PSH Design" class="max-h-[70px] object-contain"></div>
+      <a class="plaque h-[92px] w-[186px] px-4" href="https://pshdesign.com" target="_blank" rel="noopener noreferrer"
+         aria-label="PSH Design — mở pshdesign.com trong tab mới" data-en-aria-label="PSH Design — open pshdesign.com in a new tab"
+      ><img src="brand_assets/pshlogo.jpg" alt="" class="max-h-[70px] object-contain"></a>
       <p class="u-eyebrow mt-7" data-en="Capture &amp; build">Bên quét &amp; dựng</p>
       <h3 class="font-display font-extrabold text-bone text-2xl mt-3 tracking-[-.025em]">PSH DESIGN</h3>
       <p class="font-serif italic text-brass text-sm mt-1">“Being different”</p>
       <p class="mt-5 text-bonedim leading-[1.75]"
-         data-en="A design and imaging technology studio. PSH Design handles the whole technical side of the programme: survey, on-site LiDAR scanning, data processing, Gaussian Splatting training, and publishing each build to a viewer.">
+         data-en="A design and imaging technology studio. PSH Design handles the whole technical side of the programme: survey, on-site LiDAR scanning, data processing, 3DGS training, and publishing each build to a viewer.">
         Studio thiết kế và công nghệ hình ảnh. PSH Design lo toàn bộ phần kỹ thuật của chương trình:
-        khảo sát, quét LiDAR tại chỗ, xử lý dữ liệu, huấn luyện mô hình Gaussian Splatting và
+        khảo sát, quét LiDAR tại chỗ, xử lý dữ liệu, huấn luyện mô hình 3DGS và
         đưa bản dựng lên viewer.
       </p>
       <ul class="mt-6 flex flex-wrap gap-2 list-none p-0">
@@ -259,7 +266,9 @@ tailwind.config = {
 
     <!-- Pigo Tour -->
     <article class="frame surface-raised p-8 lg:p-10 rise">
-      <div class="plaque h-[92px] w-[186px] px-4"><img src="brand_assets/pigotourlogo.png" alt="Logo Pigo Tour" class="max-h-[74px] object-contain"></div>
+      <a class="plaque h-[92px] w-[186px] px-4" data-brand="pigo" href="https://pigo.com.vn" target="_blank" rel="noopener noreferrer"
+         aria-label="Pigo Tour — mở pigo.com.vn trong tab mới" data-en-aria-label="Pigo Tour — open pigo.com.vn in a new tab"
+      ><img src="brand_assets/pigotourlogo.png" alt="" class="max-h-[74px] object-contain"></a>
       <p class="u-eyebrow mt-7" data-en="Content &amp; journeys">Bên nội dung &amp; hành trình</p>
       <h3 class="font-display font-extrabold text-bone text-2xl mt-3 tracking-[-.025em]">PIGO TOUR</h3>
       <p class="font-serif italic text-brass text-sm mt-1" data-en="See it for real, then go for real">Đi thật, sau khi đã xem thật</p>
@@ -338,7 +347,7 @@ tailwind.config = {
     chừng đó là đủ để phản hồi bạn tử tế.
   </p>
 
-  <div class="grid md:grid-cols-3 gap-5 mt-10">
+  <div class="grid md:grid-cols-2 gap-5 mt-10">
     <div class="contact-card rise">
       <p class="u-eyebrow" data-en="Phone">Điện thoại</p>
       <a class="contact-value mt-4" href="tel:+84000000000">+84 000 000 000</a>
@@ -347,21 +356,13 @@ tailwind.config = {
       </p>
     </div>
 
+    <!-- Hộp thư duy nhất — nhận cả yêu cầu của trường học lẫn của doanh nghiệp. -->
     <div class="contact-card rise">
-      <p class="u-eyebrow" data-en="General enquiries">Liên hệ chung</p>
+      <p class="u-eyebrow" data-en="Email">Email</p>
       <a class="contact-value mt-4" href="mailto:lienhe@pshheritage.vn">lienhe@pshheritage.vn</a>
       <p class="mt-3 mb-0 text-bonemute text-[.8125rem] leading-[1.65]"
-         data-en="Site management boards, tourism operators, brands and press.">
-        Ban quản lý di tích, đơn vị du lịch, thương hiệu và báo chí.
-      </p>
-    </div>
-
-    <div class="contact-card rise" style="border-color:rgba(237,28,36,.32)">
-      <p class="u-eyebrow" data-en="Schools programme">Chương trình trường học</p>
-      <a class="contact-value mt-4" href="mailto:truonghoc@pshheritage.vn">truonghoc@pshheritage.vn</a>
-      <p class="mt-3 mb-0 text-bonemute text-[.8125rem] leading-[1.65]"
-         data-en="Send your school name and subject. Access opens within 3 working days, free.">
-        Gửi tên trường và môn học. Mở quyền truy cập trong 3 ngày làm việc, miễn phí.
+         data-en="Schools, site management boards, tourism operators, brands and press.">
+        Trường học, ban quản lý di tích, đơn vị du lịch, thương hiệu và báo chí.
       </p>
     </div>
   </div>
@@ -385,13 +386,17 @@ tailwind.config = {
           <span class="font-display font-extrabold tracking-[-.02em] text-bone text-[15px]">PSH HERITAGE</span>
         </div>
         <p class="mt-5 text-bonemute text-[.875rem] leading-[1.75] max-w-[38ch]"
-           data-en="A partnership between PSH Design and Pigo Tour, preserving Vietnam's monuments and heritage with 3D Gaussian Splatting.">
+           data-en="A partnership between PSH Design and Pigo Tour, preserving Vietnam's monuments and heritage with 3DGS.">
           Chương trình hợp tác giữa PSH Design và Pigo Tour, lưu giữ di tích và di sản Việt Nam
-          bằng 3D Gaussian Splatting.
+          bằng 3DGS.
         </p>
         <div class="mt-6 flex items-center gap-3">
-          <span class="plaque h-9 px-2.5 w-[84px]"><img src="brand_assets/pshlogo.jpg" alt="PSH Design" class="max-h-[26px] object-contain"></span>
-          <span class="plaque h-9 w-9"><img src="brand_assets/pigotourlogo.png" alt="Pigo Tour" class="max-h-[24px] object-contain"></span>
+          <a class="plaque h-9 px-2.5 w-[84px]" href="https://pshdesign.com" target="_blank" rel="noopener noreferrer"
+             aria-label="PSH Design — mở pshdesign.com trong tab mới" data-en-aria-label="PSH Design — open pshdesign.com in a new tab"
+          ><img src="brand_assets/pshlogo.jpg" alt="" class="max-h-[26px] object-contain"></a>
+          <a class="plaque h-9 w-9" data-brand="pigo" href="https://pigo.com.vn" target="_blank" rel="noopener noreferrer"
+             aria-label="Pigo Tour — mở pigo.com.vn trong tab mới" data-en-aria-label="Pigo Tour — open pigo.com.vn in a new tab"
+          ><img src="brand_assets/pigotourlogo.png" alt="" class="max-h-[24px] object-contain"></a>
         </div>
       </div>
 
@@ -409,7 +414,7 @@ tailwind.config = {
         <p class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Contact">Liên hệ</p>
         <ul class="mt-5 space-y-3 list-none p-0 text-[.9375rem]">
           <li><a class="foot-link" href="mailto:lienhe@pshheritage.vn">lienhe@pshheritage.vn</a></li>
-          <li><a class="foot-link" href="mailto:truonghoc@pshheritage.vn">truonghoc@pshheritage.vn</a></li>
+          <li><a class="foot-link" href="tel:+84000000000">+84 000 000 000</a></li>
           <li><a class="foot-link" href="#lien-he" data-en="Request a scan">Gửi yêu cầu quét</a></li>
         </ul>
       </div>

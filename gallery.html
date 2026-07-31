@@ -86,13 +86,13 @@ tailwind.config = {
       Chọn một di tích.<br>Bước vào bên trong.
     </h1>
     <p class="text-bonedim leading-[1.75] m-0 rise"
-       data-en="Sorted by region and province. Hover, or tap the <span class=&quot;font-mono text-[11px] text-lime&quot;>LOCATE</span> button, to see a site on the map; click a card to open its 3DGS scan in a new tab.">
-      Danh sách xếp theo vùng miền và tỉnh thành. Rê chuột hoặc chạm vào nút
-      <span class="font-mono text-[11px] text-lime">VỊ TRÍ</span> để xem địa điểm trên bản đồ;
+       data-en="Sorted by region and province. Rest on a card to highlight its pin, press <span class=&quot;font-mono text-[11px] text-lime&quot;>LOCATE</span> to hold that site on the map, and click the card to open its 3DGS scan in a new tab.">
+      Danh sách xếp theo vùng miền và tỉnh thành. Rê chuột lên thẻ để làm nổi ghim của nó, bấm nút
+      <span class="font-mono text-[11px] text-lime">VỊ TRÍ</span> để giữ địa điểm đó trên bản đồ,
       bấm vào thẻ để mở bản quét 3DGS trong tab mới.
     </p>
   </div>
-      
+
 </section>
 
 <!-- ============================ BỘ LỌC ============================ -->
@@ -129,14 +129,17 @@ tailwind.config = {
         <div class="map-shell"><div id="map" role="application" aria-label="Bản đồ vị trí các di tích đã quét" data-en-aria-label="Map of scanned monument locations"></div></div>
       </div>
 
-      <div class="surface mt-5 p-5" id="readout">
+      <div class="surface mt-5 p-5" id="readout" aria-live="polite">
         <p class="u-eyebrow" data-en="Currently viewing">Vị trí đang xem</p>
         <p class="font-serif text-bone text-[1.0625rem] leading-snug mt-3 mb-0" id="ro-name">Toàn bộ thư viện</p>
         <p class="font-mono text-[10px] tracking-[.16em] uppercase text-bonemute mt-2 mb-0" id="ro-city"></p>
         <p class="font-mono text-[10px] tracking-[.14em] text-bonemute mt-4 mb-0" id="ro-coords">—</p>
-        <!-- Hiện lên khi đã chọn một địa điểm; href do JS gắn theo địa điểm đang xem. -->
-        <a class="locate mt-5" id="ro-gmaps" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer" hidden
-           data-en="Open in Google Maps">Mở trên Google Maps</a>
+        <!-- Hiện lên khi đã chốt một địa điểm; href do JS gắn theo địa điểm đang xem. -->
+        <div class="ro-actions" id="ro-actions" hidden>
+          <a class="locate" id="ro-gmaps" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer"
+             data-en="Open in Google Maps">Mở trên Google Maps</a>
+          <button class="locate locate--quiet" type="button" id="ro-clear" data-en="Show whole library">Xem toàn thư viện</button>
+        </div>
       </div>
     </aside>
 
@@ -191,8 +194,12 @@ tailwind.config = {
           bằng 3D Gaussian Splatting.
         </p>
         <div class="mt-6 flex items-center gap-3">
-          <span class="plaque h-9 px-2.5 w-[84px]"><img src="brand_assets/pshlogo.jpg" alt="PSH Design" class="max-h-[26px] object-contain"></span>
-          <span class="plaque h-9 w-9"><img src="brand_assets/pigotourlogo.png" alt="Pigo Tour" class="max-h-[24px] object-contain"></span>
+          <a class="plaque h-9 px-2.5 w-[84px]" href="https://pshdesign.com" target="_blank" rel="noopener noreferrer"
+             aria-label="PSH Design — mở pshdesign.com trong tab mới" data-en-aria-label="PSH Design — open pshdesign.com in a new tab"
+          ><img src="brand_assets/pshlogo.jpg" alt="" class="max-h-[26px] object-contain"></a>
+          <a class="plaque h-9 w-9" data-brand="pigo" href="https://pigo.com.vn" target="_blank" rel="noopener noreferrer"
+             aria-label="Pigo Tour — mở pigo.com.vn trong tab mới" data-en-aria-label="Pigo Tour — open pigo.com.vn in a new tab"
+          ><img src="brand_assets/pigotourlogo.png" alt="" class="max-h-[24px] object-contain"></a>
         </div>
       </div>
 
@@ -210,7 +217,7 @@ tailwind.config = {
         <p class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Contact">Liên hệ</p>
         <ul class="mt-5 space-y-3 list-none p-0 text-[.9375rem]">
           <li><a class="foot-link" href="mailto:lienhe@pshheritage.vn">lienhe@pshheritage.vn</a></li>
-          <li><a class="foot-link" href="mailto:truonghoc@pshheritage.vn">truonghoc@pshheritage.vn</a></li>
+          <li><a class="foot-link" href="tel:+84000000000">+84 000 000 000</a></li>
           <li><a class="foot-link" href="index.html#lien-he" data-en="Request a scan">Gửi yêu cầu quét</a></li>
         </ul>
       </div>
@@ -244,6 +251,8 @@ tailwind.config = {
   var countEl = document.getElementById('result-count');
   var qEl     = document.getElementById('q');
   var gmapsEl = document.getElementById('ro-gmaps');
+  var actionsEl = document.getElementById('ro-actions');
+  var clearEl = document.getElementById('ro-clear');
   var chips   = Array.prototype.slice.call(document.querySelectorAll('[data-region]'));
   var reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -251,7 +260,9 @@ tailwind.config = {
   var query   = '';
   var markers = {};
   var map     = null;
-  var activeId = null;
+  var activeId = null;   // địa điểm đã chốt — chỉ đổi khi bấm nút VỊ TRÍ hoặc bấm ghim
+  var previewId = null;  // địa điểm đang rê chuột / focus — chỉ làm nổi ghim
+  var lastRows = ALL;    // danh sách sau bộ lọc gần nhất, dùng cho nút "Xem toàn thư viện"
 
   /* Nền/chữ cho ảnh placeholder — đủ sáng để đọc được sau khi phủ lớp màu. */
   var TONES = [
@@ -307,7 +318,7 @@ tailwind.config = {
         '</p>' +
 
         '<div class="flex items-center justify-between gap-3 mt-auto pt-4">' +
-          '<button class="locate" type="button" data-locate="' + it.id + '">' +
+          '<button class="locate" type="button" aria-pressed="false" data-locate="' + it.id + '">' +
             '<svg width="9" height="11" viewBox="0 0 9 11" fill="none" aria-hidden="true"><path d="M4.5.8C2.6.8 1 2.3 1 4.2c0 2.6 3.5 6 3.5 6S8 6.8 8 4.2C8 2.3 6.4.8 4.5.8Z" stroke="currentColor" stroke-width="1.1"/><circle cx="4.5" cy="4.2" r="1.2" fill="currentColor"/></svg>' +
             T.t('Vị trí', 'Locate') + '</button>' +
           (open
@@ -412,6 +423,8 @@ tailwind.config = {
         : T.t('Không có kết quả', 'No results');
     emptyEl.hidden = rows.length > 0 || soonShown > 0;
 
+    lastRows = rows;
+    previewId = null;   // danh sách vừa dựng lại, mọi trạng thái rê chuột cũ đã mất
     syncMarkers(rows);
   }
 
@@ -461,7 +474,7 @@ tailwind.config = {
       var el = rec.marker.getElement();          // tooltip theo ngôn ngữ đang bật
       if (el) el.title = T.f(rec.item, 'name');
     });
-    if (rows.length) fitAll(rows);
+    fitAll(rows);
   }
 
   /* Mức phóng của bản đồ.
@@ -479,16 +492,18 @@ tailwind.config = {
   function fitAll(rows) {
     if (!map) return;
     var list = rows || ALL;
-    var pts = list.map(function (it) { return [it.lat, it.lng]; });
-    if (!pts.length) return;
-    map.fitBounds(L.latLngBounds(pts), { padding: [34, 34], maxZoom: fitZoom(), animate: !reduce });
+
     setActive(null);
     document.getElementById('ro-name').textContent = T.t('Toàn bộ thư viện', 'Whole library');
     document.getElementById('ro-city').textContent =
       T.t('Việt Nam · ' + list.length + ' địa điểm',
           'Vietnam · ' + list.length + (list.length === 1 ? ' site' : ' sites'));
     document.getElementById('ro-coords').textContent = '—';
-    if (gmapsEl) gmapsEl.hidden = true;  // chưa chọn địa điểm nào thì chưa có gì để mở
+    if (actionsEl) actionsEl.hidden = true;  // chưa chốt địa điểm nào thì chưa có gì để mở
+
+    var pts = list.map(function (it) { return [it.lat, it.lng]; });
+    if (!pts.length) return;
+    map.fitBounds(L.latLngBounds(pts), { padding: [34, 34], maxZoom: fitZoom(), animate: !reduce });
   }
 
   /* Link tới địa điểm trên Google Maps, theo thứ tự ưu tiên:
@@ -507,9 +522,12 @@ tailwind.config = {
     if (activeId && markers[activeId]) {
       var prev = markers[activeId].marker.getElement();
       if (prev) { var p = prev.querySelector('.pin'); if (p) p.classList.remove('is-active'); }
-      markers[activeId].marker.setZIndexOffset(0);
+      markers[activeId].marker.setZIndexOffset(activeId === previewId ? 500 : 0);
     }
     listEl.querySelectorAll('.card.is-active').forEach(function (c) { c.classList.remove('is-active'); });
+    listEl.querySelectorAll('[data-locate][aria-pressed="true"]').forEach(function (b) {
+      b.setAttribute('aria-pressed', 'false');
+    });
     activeId = id;
     if (!id) return;
     var rec = markers[id];
@@ -520,7 +538,30 @@ tailwind.config = {
       rec.marker.setZIndexOffset(1000);
     }
     var card = listEl.querySelector('[data-id="' + id + '"]');
-    if (card) card.classList.add('is-active');
+    if (card) {
+      card.classList.add('is-active');
+      var btn = card.querySelector('[data-locate]');
+      if (btn) btn.setAttribute('aria-pressed', 'true');
+    }
+  }
+
+  /* Rê chuột hoặc focus bàn phím chỉ làm nổi ghim tương ứng trên bản đồ — không
+     đổi ô "Vị trí đang xem", không bay bản đồ. Nhờ vậy khi đưa chuột từ một thẻ
+     sang bảng bên phải để bấm "Mở trên Google Maps", đi ngang qua thẻ bên cạnh
+     cũng không làm mất địa điểm vừa chốt. */
+  function setPreview(id) {
+    if (id === previewId) return;
+    if (previewId) paintPreview(previewId, false);
+    previewId = id;
+    if (id) paintPreview(id, true);
+  }
+
+  function paintPreview(id, on) {
+    var rec = markers[id];
+    if (!rec || !rec.on) return;
+    var el = rec.marker.getElement();
+    if (el) { var pin = el.querySelector('.pin'); if (pin) pin.classList.toggle('is-hover', on); }
+    if (id !== activeId) rec.marker.setZIndexOffset(on ? 500 : 0);
   }
 
   function focus(id, keepZoom) {
@@ -537,25 +578,24 @@ tailwind.config = {
     document.getElementById('ro-coords').textContent =
       it.lat.toFixed(4) + '° N, ' + it.lng.toFixed(4) + '° E';
 
-    /* Xoá nút khỏi HTML thì hai dòng này tự bỏ qua, trang không lỗi. */
-    if (gmapsEl) {
-      gmapsEl.href = gmapsURL(it);
-      gmapsEl.hidden = false;
-    }
+    /* Xoá nút khỏi HTML thì mấy dòng này tự bỏ qua, trang không lỗi. */
+    if (gmapsEl) gmapsEl.href = gmapsURL(it);
+    if (actionsEl) actionsEl.hidden = false;
   }
 
   /* ---------------- Sự kiện ---------------- */
 
-  var hoverTimer;
   listEl.addEventListener('mouseover', function (e) {
     var card = e.target.closest('.card');
-    if (!card || card.dataset.id === activeId) return;
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(function () { focus(card.dataset.id); }, 90);
+    setPreview(card ? card.dataset.id : null);
   });
+  listEl.addEventListener('mouseleave', function () { setPreview(null); });
   listEl.addEventListener('focusin', function (e) {
     var card = e.target.closest('.card');
-    if (card && card.dataset.id !== activeId) focus(card.dataset.id);
+    setPreview(card ? card.dataset.id : null);
+  });
+  listEl.addEventListener('focusout', function (e) {
+    if (!e.relatedTarget || !listEl.contains(e.relatedTarget)) setPreview(null);
   });
   listEl.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-locate]');
@@ -566,6 +606,8 @@ tailwind.config = {
       document.getElementById('map').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
     }
   });
+
+  if (clearEl) clearEl.addEventListener('click', function () { fitAll(lastRows); });
 
 
   chips.forEach(function (btn) {
