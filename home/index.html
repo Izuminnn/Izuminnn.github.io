@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-en="PiHeritage — Vietnam's heritage in 3DGS">PiHeritage — Di sản Việt Nam bằng 3DGS</title>
+<meta name="description" content="PSH Design × Pigo Tour quét và dựng lại di tích, di sản Việt Nam bằng công nghệ 3DGS. Miễn phí cho trường học và tổ chức giáo dục."
+      data-en-content="PSH Design × Pigo Tour scan and rebuild Vietnam's monuments and heritage sites with 3DGS. Free for schools and educational institutions.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/psh.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      ink:  { 900:'#080d0a', 800:'#0c1410', 700:'#111c16', 600:'#17261e', 500:'#1e3227', 400:'#2a4436' },
+      psh:  '#7842c0', pshb:'#8b51d6', pigo:'#1b9e4b', lime:'#8dc63f',
+      bone: '#ede6d8', bonedim:'#b8ae9c', bonemute:'#7f8a82', brass:'#c9a227'
+    },
+    fontFamily: {
+      display:['Archivo','sans-serif'],
+      body:['"Be Vietnam Pro"','sans-serif'],
+      serif:['Lora','Georgia','serif'],
+      mono:['"JetBrains Mono"','monospace']
+    },
+    maxWidth: { shell:'1240px' }
+  }}
+};
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-en="Skip to main content">Bỏ qua tới nội dung chính</a>
+
+<!-- ============================ NAV ============================ -->
+<header id="nav" class="nav fixed top-0 inset-x-0 z-50">
+  <!-- Tầng trên: logo trái · thư viện scan giữa · ngôn ngữ + liên hệ phải -->
+  <div class="mx-auto max-w-shell px-5 sm:px-8 h-[68px] grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+    <a href="/home/" class="group flex items-center gap-2.5 no-underline justify-self-start rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-lime focus-visible:outline-offset-4" aria-label="PiHeritage — trang chủ" data-en-aria-label="PiHeritage — home">
+      <img src="/brand_assets/piheritagelogo.png" alt="" class="pi-mark w-8 h-7 object-contain flex-none">
+      <span class="leading-none">
+        <span class="block font-display tracking-[-.015em] text-bone text-[16px]"><span class="font-extrabold">Pi</span><span class="font-normal">Heritage</span></span>
+        <span class="block font-mono text-[9px] tracking-[.26em] text-bonemute mt-[4px] whitespace-nowrap">PSH DESIGN × PIGO TOUR</span>
+      </span>
+    </a>
+
+    <a class="btn btn--ghost btn--sm hidden lg:inline-flex justify-self-center" href="/gallery/" data-en="Scan library">Thư viện scan</a>
+
+    <div class="justify-self-end flex items-center gap-3">
+      <div class="lang" role="group" aria-label="Ngôn ngữ" data-en-aria-label="Language">
+        <button class="lang-btn" type="button" data-lang-btn="vi" aria-pressed="true">VI</button>
+        <button class="lang-btn" type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn--primary btn--sm hidden lg:inline-flex" href="#lien-he" data-en="Contact">Liên hệ</a>
+      <button id="burger" class="lg:hidden inline-flex flex-col justify-center gap-[5px] w-11 h-11 items-center rounded border border-ink-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-lime"
+              aria-expanded="false" aria-controls="drawer" aria-label="Mở menu" data-en-aria-label="Open menu">
+        <span class="block w-5 h-[2px] bg-bone"></span>
+        <span class="block w-5 h-[2px] bg-psh"></span>
+        <span class="block w-5 h-[2px] bg-bone"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Tầng dưới: 3 mục phụ, gom một nhóm căn giữa -->
+  <div class="hidden lg:block nav-row2">
+    <nav class="mx-auto max-w-shell px-5 sm:px-8 h-[46px] flex items-center justify-center gap-2" aria-label="Điều hướng chính" data-en-aria-label="Main navigation">
+      <a class="nav-link" href="#gioi-thieu" data-en="About us">Về chúng tôi</a>
+      <a class="nav-link" href="#cong-nghe" data-en="Technology">Công nghệ</a>
+      <a class="nav-link" href="#giao-duc" data-en="Schools">Trường học</a>
+    </nav>
+  </div>
+
+  <div id="drawer" hidden class="lg:hidden border-t border-ink-500 bg-ink-900/95 backdrop-blur px-5 py-5">
+    <div class="flex flex-col gap-1">
+      <a class="nav-link py-3" href="/gallery/" data-en="Scan library">Thư viện scan</a>
+      <a class="nav-link py-3" href="#gioi-thieu" data-en="About us">Về chúng tôi</a>
+      <a class="nav-link py-3" href="#cong-nghe" data-en="Technology">Công nghệ</a>
+      <a class="nav-link py-3" href="#giao-duc" data-en="Schools">Trường học</a>
+      <a class="btn btn--primary mt-3" href="#lien-he" data-en="Contact">Liên hệ</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       VIDEO NỀN — chỗ duy nhất cần sửa
+
+       1. Bỏ video vào thư mục `videos/` ở gốc repo (ngang hàng với thư mục
+          `home/` và `gallery/`, không phải ngang hàng với file này).
+       2. Sửa đường dẫn trong <source src="..."> bên dưới cho khớp tên file.
+       3. Có ảnh chờ thì điền vào poster="..." (hiện trong lúc video đang tải).
+
+       Video nên: .mp4 (H.264), 1920×1080 nằm ngang, 10–20 giây, KHÔNG tiếng,
+       dưới 8 MB. Nó tự chạy, tự lặp, không có nút bấm.
+
+       Chưa có file cũng không sao — hero sẽ dùng nền gradient dự phòng.
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="hero-bg" aria-hidden="true">
+    <video id="hero-video" class="hero-media" autoplay muted loop playsinline preload="auto" poster="">
+      <source src="/videos/backgroundtest2.mp4" type="video/mp4">
+    </video>
+    <div class="hero-veil"></div>
+    <div class="hero-scrim"></div>
+  </div>
+
+  <span class="hero-corner hero-corner--tl" aria-hidden="true"></span>
+  <span class="hero-corner hero-corner--br" aria-hidden="true"></span>
+
+  <div class="hero-inner mx-auto max-w-shell px-5 sm:px-8">
+    <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,.72fr)] gap-12 lg:gap-16 items-end">
+
+      <!-- Cột chữ -->
+      <div>
+        <p class="u-eyebrow rise" data-en="3DGS <span class=&quot;dot&quot;>·</span> Vietnam's monuments &amp; heritage">3DGS <span class="dot">·</span> Số hóa Di tích &amp; di sản Việt Nam</p>
+
+        <h1 class="u-display text-bone mt-6 text-[clamp(2.5rem,5.3vw,4.25rem)] rise"
+            data-en="Vietnam's<br>heritage, from<br><span class=&quot;text-psh&quot;>millions of</span><br>points of light">
+          Di sản Việt Nam,<br>
+          dựng lại từ<br>
+          <span class="text-psh">hàng triệu</span><br>
+          điểm sáng
+        </h1>
+
+        <p class="mt-7 text-bonedim text-[1.0625rem] leading-[1.75] max-w-[46ch] rise"
+           data-en="<strong class=&quot;text-bone font-semibold&quot;>PiHeritage</strong> is a partnership between <strong class=&quot;text-bone font-semibold&quot;>PSH Design</strong> and <strong class=&quot;text-bone font-semibold&quot;>Pigo Tour</strong>: Vietnam's monuments and heritage sites rebuilt with 3DGS. Not a photo, not a video — you step into the actual space and look from any angle, right in your browser.">
+          <strong class="text-bone font-semibold">PiHeritage</strong> là chương trình hợp tác giữa
+          <strong class="text-bone font-semibold">PSH Design</strong> và
+          <strong class="text-bone font-semibold">Pigo Tour</strong>: dựng lại và số hóa các di tích, di sản Việt Nam
+          bằng công nghệ 3DGS. Không phải ảnh, không phải video — bạn bước vào đúng không gian đó,
+          xoay mọi góc và khám phá mọi ngóc ngách như đang ở đó.
+        </p>
+
+        <div class="mt-9 flex flex-wrap gap-3 rise">
+          <a class="btn btn--primary" href="/gallery/"
+             data-en="Browse the scan library <svg width=&quot;14&quot; height=&quot;10&quot; viewBox=&quot;0 0 14 10&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot;><path d=&quot;M9 1l4 4-4 4M13 5H1&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;square&quot;/></svg>">
+            Xem thư viện scan
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true"><path d="M9 1l4 4-4 4M13 5H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="#giao-duc" data-en="Free for schools">Miễn phí cho trường học</a>
+        </div>
+      </div>
+
+      <!-- Cột phải: hai đơn vị hợp tác -->
+      <div class="rise lg:pb-2">
+        <div class="pt-8 border-t border-bone/25">
+          <p class="font-mono text-[10px] tracking-[.22em] uppercase text-bonedim m-0" data-en="A partnership between">Chương trình hợp tác giữa</p>
+          <div class="mt-4 flex items-center gap-5">
+            <a class="plaque h-[76px] w-[124px] px-3" href="https://pshdesign.com" target="_blank" rel="noopener noreferrer"
+               aria-label="PSH Design — mở pshdesign.com trong tab mới" data-en-aria-label="PSH Design — open pshdesign.com in a new tab"
+            ><img src="/brand_assets/pshlogo.jpg" alt="" class="max-h-[64px] object-contain"></a>
+            <span class="w-px h-9 bg-ink-400" aria-hidden="true"></span>
+            <a class="plaque h-[76px] w-[80px] px-2" data-brand="pigo" href="https://pigo.com.vn" target="_blank" rel="noopener noreferrer"
+               aria-label="Pigo Tour — mở pigo.com.vn trong tab mới" data-en-aria-label="Pigo Tour — open pigo.com.vn in a new tab"
+            ><img src="/brand_assets/pigotourlogo.png" alt="" class="max-h-[56px] object-contain"></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SỐ LIỆU ============================
+     Ba số đầu do assets/psh.js đếm thẳng từ heritage-data.js rồi ghi đè.
+     Số viết sẵn ở đây chỉ hiện trong tích tắc trước khi script chạy, nên để
+     đúng với dữ liệu hiện tại cho khỏi nháy sai. -->
+<section class="mx-auto max-w-shell px-5 sm:px-8">
+  <div class="surface stat-rail rise">
+    <div class="stat">
+      <div class="stat-num"><span data-count="sites">5</span></div>
+      <div class="stat-label" data-en="Sites in the library">Địa điểm trong thư viện</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><span data-count="provinces">2</span></div>
+      <div class="stat-label" data-en="Provinces &amp; cities">Tỉnh &amp; thành phố</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><span data-count="unesco">2</span></div>
+      <div class="stat-label" data-en="On the UNESCO list">Thuộc danh mục UNESCO</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-en="0<span class=&quot;unit&quot;>₫</span>">0<span class="unit">đ</span></div>
+      <div class="stat-label" data-en="Cost for schools">Chi phí cho trường học</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CÔNG NGHỆ ============================ -->
+<section id="cong-nghe" class="mx-auto max-w-shell px-5 sm:px-8 pt-24 lg:pt-36">
+  <div class="max-w-[52ch]">
+    <p class="u-eyebrow rise" data-en="Technology <span class=&quot;dot&quot;>·</span> 3DGS">Công nghệ <span class="dot">·</span> 3DGS</p>
+    <h2 class="u-display text-bone mt-5 text-[clamp(1.9rem,4.4vw,3rem)] rise" data-en="Not a photo.<br>Not a video.">
+      Không phải ảnh.<br>Không phải video.
+    </h2>
+    <p class="mt-6 text-bonedim leading-[1.75] rise"
+       data-en="3DGS records a building as tens of millions of coloured points, each with its own direction and translucency. The result keeps the faded paint, the moss on the roof tiles and the sunlight crossing the courtyard — the things a hand-built model never gets right.">
+      3DGS ghi lại công trình thành hàng chục triệu hạt sáng có màu, có hướng và có độ trong.
+      Kết quả giữ được cả nước sơn bạc màu, vệt rêu trên ngói và ánh nắng hắt qua sân — những thứ mô hình
+      dựng tay không làm ra được.
+    </p>
+  </div>
+
+  <ol class="mt-12 grid md:grid-cols-3 gap-5 list-none p-0">
+    <li class="surface p-7 rise">
+      <span class="chip" data-en="Step 01 · Capture">Bước 01 · Quét</span>
+      <h3 class="font-display font-bold text-bone text-xl mt-5 tracking-[-.02em]" data-en="On-site scanning">Quét thực địa</h3>
+      <p class="mt-3 text-bonedim text-[.9375rem] leading-[1.7]"
+         data-en="A small handheld LiDAR rig walks the whole site, recording geometry and real light at the same time. A mid-sized monument takes about half a day.">
+        Thiết bị LiDAR nhỏ cầm tay đi hết công trình, thu đồng thời hình khối và ánh sáng thật.
+        Một di tích cỡ trung mất khoảng nửa ngày.
+      </p>
+    </li>
+    <li class="surface p-7 rise">
+      <span class="chip" data-en="Step 02 · Build">Bước 02 · Dựng</span>
+      <h3 class="font-display font-bold text-bone text-xl mt-5 tracking-[-.02em]" data-en="Process captured data">Xử lý dữ liệu quét</h3>
+      <p class="mt-3 text-bonedim text-[.9375rem] leading-[1.7]"
+         data-en="The capture is processed into a 3D Space. Surfaces, gloss and depth come back exactly as the eye sees them — nothing interpolated, nothing repainted.">
+        Dữ liệu được xử lý thành môi trường 3D. Bề mặt, độ bóng và chiều sâu tái tạo đúng như mắt nhìn,
+        không nội suy, không tô lại.
+      </p>
+    </li>
+    <li class="surface p-7 rise">
+      <span class="chip" data-en="Step 03 · Access">Bước 03 · Truy cập</span>
+      <h3 class="font-display font-bold text-bone text-xl mt-5 tracking-[-.02em]" data-en="View in a browser">Xem trên trình duyệt</h3>
+      <p class="mt-3 text-bonedim text-[.9375rem] leading-[1.7]"
+         data-en="No need to install, no headset and plugin required. Open the link and you are inside the space, free to move and look around, on a laptop or a phone.">
+        Không yêu cầu cài đặt, kính VR hay plugin. Chỉ cần mở link là vào được không gian, đi lại và nhìn tự do
+        trên máy tính hoặc điện thoại.
+      </p>
+    </li>
+  </ol>
+</section>
+
+<!-- ============================ GIỚI THIỆU ============================ -->
+<section id="gioi-thieu" class="mx-auto max-w-shell px-5 sm:px-8 pt-24 lg:pt-36">
+  <div class="region-head rise">
+    <h2 class="u-display text-bone text-[clamp(1.9rem,4.4vw,3rem)] m-0" data-en="Two companies,<br>one job worth doing">Hai công ty,<br>một việc cần làm</h2>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-5 mt-10">
+    <!-- PSH Design -->
+    <article class="frame surface-raised p-8 lg:p-10 rise">
+      <a class="plaque h-[92px] w-[186px] px-4" href="https://pshdesign.com" target="_blank" rel="noopener noreferrer"
+         aria-label="PSH Design — mở pshdesign.com trong tab mới" data-en-aria-label="PSH Design — open pshdesign.com in a new tab"
+      ><img src="/brand_assets/pshlogo.jpg" alt="" class="max-h-[70px] object-contain"></a>
+      <p class="u-eyebrow mt-7" data-en="Capture &amp; build">Bên quét &amp; dựng</p>
+      <h3 class="font-display font-extrabold text-bone text-2xl mt-3 tracking-[-.025em]">PSH DESIGN</h3>
+      <p class="font-serif italic text-brass text-sm mt-1">“Being different”</p>
+      <p class="mt-5 text-bonedim leading-[1.75]"
+         data-en="A design and imaging technology studio. PSH Design handles the whole technical side of the programme: survey, on-site LiDAR scanning, data processing, 3DGS training, and publishing each build to a viewer.">
+        Studio thiết kế và công nghệ hình ảnh. PSH Design lo toàn bộ phần kỹ thuật của chương trình:
+        khảo sát, quét LiDAR tại chỗ, xử lý dữ liệu, huấn luyện mô hình 3DGS và
+        đưa bản dựng lên viewer.
+      </p>
+      <ul class="mt-6 flex flex-wrap gap-2 list-none p-0">
+        <li class="chip" data-en="LiDAR scanning">Quét LiDAR</li>
+        <li class="chip" data-en="3DGS processing">Xử lý 3DGS</li>
+        <li class="chip" data-en="Viewer &amp; web embed">Viewer &amp; nhúng web</li>
+      </ul>
+    </article>
+
+    <!-- Pigo Tour -->
+    <article class="frame surface-raised p-8 lg:p-10 rise">
+      <a class="plaque h-[92px] w-[186px] px-4" data-brand="pigo" href="https://pigo.com.vn" target="_blank" rel="noopener noreferrer"
+         aria-label="Pigo Tour — mở pigo.com.vn trong tab mới" data-en-aria-label="Pigo Tour — open pigo.com.vn in a new tab"
+      ><img src="/brand_assets/pigotourlogo.png" alt="" class="max-h-[74px] object-contain"></a>
+      <p class="u-eyebrow mt-7" data-en="Content &amp; journeys">Bên nội dung &amp; hành trình</p>
+      <h3 class="font-display font-extrabold text-bone text-2xl mt-3 tracking-[-.025em]">PIGO TOUR</h3>
+      <p class="font-serif italic text-brass text-sm mt-1" data-en="See it for real, then go for real">Đi thật, sau khi đã xem thật</p>
+      <p class="mt-5 text-bonedim leading-[1.75]"
+         data-en="A travel operator. Pigo Tour picks the destinations, writes the interpretation for each site, works with site management boards to secure scanning permission, and runs trips for people who want to visit after seeing the scan.">
+        Đơn vị lữ hành. Pigo Tour chọn điểm đến, viết thuyết minh cho từng di tích, làm việc với ban quản lý
+        để xin phép quét, và tổ chức chuyến đi cho những người muốn đến tận nơi sau khi đã xem bản scan.
+      </p>
+      <ul class="mt-6 flex flex-wrap gap-2 list-none p-0">
+        <li class="chip" data-en="Destination content">Nội dung điểm đến</li>
+        <li class="chip" data-en="Site management liaison">Kết nối ban quản lý</li>
+        <li class="chip" data-en="Field tours">Tour thực địa</li>
+      </ul>
+    </article>
+  </div>
+
+  <p class="mt-8 font-serif text-[1.125rem] leading-[1.8] text-bone max-w-[62ch] rise"
+     data-en="That is where the two meet: <span class=&quot;text-lime&quot;>see it first in 3DGS</span>, then <span class=&quot;text-psh&quot;>go for real with Pigo Tour</span>. A scan does not replace the trip — it is the reason to start one.">
+    Hai việc đó gặp nhau ở đây: <span class="text-lime">xem trước bằng 3DGS</span>, rồi
+    <span class="text-psh">đi thật cùng Pigo Tour</span>. Bản scan không thay thế chuyến đi —
+    nó là lý do để bắt đầu chuyến đi.
+  </p>
+</section>
+
+<!-- ============================ GIÁO DỤC ============================ -->
+<section id="giao-duc" class="mx-auto max-w-shell px-5 sm:px-8 pt-24 lg:pt-36">
+  <div class="region-head rise">
+    <h2 class="u-display text-bone text-[clamp(1.9rem,4.4vw,3rem)] m-0" data-en="Free for education">Miễn phí cho giáo dục</h2>
+    <span class="chip chip--edu ml-auto hidden sm:inline-flex" data-en="Free · Unlimited viewing">0đ · Không giới hạn lượt xem</span>
+  </div>
+
+  <div class="grid lg:grid-cols-[1.15fr_1fr] gap-5 mt-10">
+    <article class="surface-raised p-8 lg:p-10 rise" style="box-shadow:0 2px 4px rgba(0,0,0,.5), 0 18px 42px -14px rgba(0,0,0,.72), 0 0 0 1px rgba(120,66,192,.18)">
+      <span class="chip chip--edu" data-en="Education">Giáo dục</span>
+      <h3 class="font-display font-extrabold text-bone text-[1.75rem] mt-5 tracking-[-.025em]" data-en="Schools, libraries, museums">Trường học, thư viện, bảo tàng</h3>
+      <p class="mt-4 text-bonedim leading-[1.75]"
+         data-en="The entire PiHeritage library is free for every educational institution in Vietnam — for classroom and online teaching alike, with no view limit and no contract.">
+        Toàn bộ thư viện PiHeritage miễn phí cho mọi cơ sở giáo dục tại Việt Nam — dùng cho tiết học
+        trực tiếp lẫn trực tuyến, không giới hạn số lượt xem, không cần hợp đồng.
+      </p>
+      <ul class="mt-6 space-y-3 list-none p-0 text-[.9375rem]">
+        <li class="flex gap-3 text-bonedim"><span class="text-lime font-mono text-xs mt-1 flex-none">→</span> <span data-en="Need a local monument scanned for your syllabus? Also free, scheduled quarterly.">Cần quét một di tích ở địa phương để phục vụ chương trình học? Hoàn toàn miễn phí.</span></li>
+        <li class="flex gap-3 text-bonedim"><span class="text-lime font-mono text-xs mt-1 flex-none">→</span> <span data-en="Comes with the site interpretation written by Pigo Tour.">Kèm bản thuyết minh do Pigo Tour biên soạn cho từng địa điểm.</span></li>
+      </ul>
+      <a class="btn btn--primary mt-8" href="#lien-he" data-en="Register your school">Đăng ký cho trường</a>
+    </article>
+
+    <article class="surface p-8 lg:p-10 rise">
+      <span class="chip" data-en="Organisations &amp; business">Tổ chức &amp; doanh nghiệp</span>
+      <h3 class="font-display font-extrabold text-bone text-[1.75rem] mt-5 tracking-[-.025em]" data-en="Commissioned scans">Bản quét theo yêu cầu</h3>
+      <p class="mt-4 text-bonedim leading-[1.75]"
+         data-en="Site management boards, tourism operators and brands that need their own scan, higher detail, or a viewer embedded in their own website — get in touch for a quote based on the size of the site.">
+        Ban quản lý di tích, đơn vị du lịch và thương hiệu cần bản quét riêng, độ chi tiết cao,
+        hoặc muốn nhúng viewer vào website của mình — liên hệ để nhận báo giá theo quy mô công trình.
+      </p>
+      <ul class="mt-6 space-y-3 list-none p-0 text-[.9375rem]">
+        <li class="flex gap-3 text-bonedim"><span class="text-psh font-mono text-xs mt-1 flex-none">→</span> <span data-en="Scanning scheduled around your calendar.">Quét riêng theo lịch của đơn vị.</span></li>
+        <li class="flex gap-3 text-bonedim"><span class="text-psh font-mono text-xs mt-1 flex-none">→</span> <span data-en="Viewer embedded in your website, kiosk or app.">Nhúng viewer vào website, kiosk hoặc ứng dụng.</span></li>
+        <li class="flex gap-3 text-bonedim"><span class="text-psh font-mono text-xs mt-1 flex-none">→</span> <span data-en="Source data handed over for archival and restoration.">Bàn giao dữ liệu gốc phục vụ lưu trữ và trùng tu.</span></li>
+      </ul>
+      <a class="btn btn--ghost mt-8" href="#lien-he" data-en="Request a quote">Nhận báo giá</a>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ LIÊN HỆ ============================ -->
+<section id="lien-he" class="mx-auto max-w-shell px-5 sm:px-8 pt-24 lg:pt-36 pb-24 lg:pb-32">
+  <div class="region-head rise">
+    <h2 class="u-display text-bone text-[clamp(1.9rem,4.4vw,3rem)] m-0" data-en="Contact">Liên hệ</h2>
+  </div>
+
+  <p class="mt-6 text-bonedim leading-[1.75] max-w-[58ch] rise"
+     data-en="Write or call — whichever suits you. Tell us who you are, which monument you need and what for; that is enough for us to reply with something useful.">
+    Gọi điện hay gửi mail đều được. Cho chúng tôi biết bạn là ai, cần bản scan nào và dùng cho việc gì —
+    chừng đó là đủ để phản hồi bạn tử tế.
+  </p>
+
+  <div class="grid md:grid-cols-2 gap-5 mt-10">
+    <div class="contact-card rise">
+      <p class="u-eyebrow" data-en="Phone">Điện thoại</p>
+      <a class="contact-value mt-4" href="tel:+84000000000">+84 000 000 000</a>
+      <p class="mt-3 mb-0 text-bonemute text-[.8125rem] leading-[1.65]" data-en="Weekdays, 8:30–17:30">
+        Giờ hành chính, 8:30–17:30
+      </p>
+    </div>
+
+    <!-- Hộp thư duy nhất — nhận cả yêu cầu của trường học lẫn của doanh nghiệp. -->
+    <div class="contact-card rise">
+      <p class="u-eyebrow" data-en="Email">Email</p>
+      <a class="contact-value mt-4" href="mailto:lienhe@pshheritage.vn">lienhe@pshheritage.vn</a>
+      <p class="mt-3 mb-0 text-bonemute text-[.8125rem] leading-[1.65]"
+         data-en="Schools, site management boards, tourism operators, brands and press.">
+        Trường học, ban quản lý di tích, đơn vị du lịch, thương hiệu và báo chí.
+      </p>
+    </div>
+  </div>
+
+  <p class="mt-8 text-bonemute text-[.875rem] leading-[1.7] m-0 rise"
+     data-en="Want to look first? <a class=&quot;text-lime no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-lime&quot; href=&quot;/gallery/&quot;>Open the scan library</a> and pick any monument.">
+    Muốn xem trước đã? <a class="text-lime no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-lime" href="/gallery/">Mở thư viện scan</a>
+    và chọn một di tích bất kỳ.
+  </p>
+</section>
+
+</main>
+
+<!-- ============================ CHÂN TRANG ============================ -->
+<footer class="hairline">
+  <div class="mx-auto max-w-shell px-5 sm:px-8 py-14">
+    <div class="grid md:grid-cols-[1.4fr_1fr_1fr] gap-10">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <img src="/brand_assets/piheritagelogo.png" alt="" class="w-7 h-6 object-contain flex-none" aria-hidden="true">
+          <span class="font-display tracking-[-.015em] text-bone text-[15px]"><span class="font-extrabold">Pi</span><span class="font-normal">Heritage</span></span>
+        </div>
+        <p class="mt-5 text-bonemute text-[.875rem] leading-[1.75] max-w-[38ch]"
+           data-en="A partnership between PSH Design and Pigo Tour, preserving Vietnam's monuments and heritage with 3DGS.">
+          Chương trình hợp tác giữa PSH Design và Pigo Tour, lưu giữ di tích và di sản Việt Nam
+          bằng 3DGS.
+        </p>
+        <div class="mt-6 flex items-center gap-3">
+          <a class="plaque h-9 px-2.5 w-[84px]" href="https://pshdesign.com" target="_blank" rel="noopener noreferrer"
+             aria-label="PSH Design — mở pshdesign.com trong tab mới" data-en-aria-label="PSH Design — open pshdesign.com in a new tab"
+          ><img src="/brand_assets/pshlogo.jpg" alt="" class="max-h-[26px] object-contain"></a>
+          <a class="plaque h-9 w-9" data-brand="pigo" href="https://pigo.com.vn" target="_blank" rel="noopener noreferrer"
+             aria-label="Pigo Tour — mở pigo.com.vn trong tab mới" data-en-aria-label="Pigo Tour — open pigo.com.vn in a new tab"
+          ><img src="/brand_assets/pigotourlogo.png" alt="" class="max-h-[24px] object-contain"></a>
+        </div>
+      </div>
+
+      <nav aria-label="Liên kết trang" data-en-aria-label="Site links">
+        <p class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Pages">Trang</p>
+        <ul class="mt-5 space-y-3 list-none p-0 text-[.9375rem]">
+          <li><a class="foot-link" href="/gallery/" data-en="Scan library">Thư viện scan</a></li>
+          <li><a class="foot-link" href="#cong-nghe" data-en="3DGS technology">Công nghệ 3DGS</a></li>
+          <li><a class="foot-link" href="#gioi-thieu" data-en="About us">Về chúng tôi</a></li>
+          <li><a class="foot-link" href="#giao-duc" data-en="Schools programme">Chương trình trường học</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <p class="font-mono text-[10px] tracking-[.18em] uppercase text-bonemute" data-en="Contact">Liên hệ</p>
+        <ul class="mt-5 space-y-3 list-none p-0 text-[.9375rem]">
+          <li><a class="foot-link" href="mailto:lienhe@pshheritage.vn">lienhe@pshheritage.vn</a></li>
+          <li><a class="foot-link" href="tel:+84000000000">+84 000 000 000</a></li>
+          <li><a class="foot-link" href="#lien-he" data-en="Request a scan">Gửi yêu cầu quét</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 hairline flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+      <p class="font-mono text-[10px] tracking-[.16em] uppercase text-bonemute m-0"
+         data-en="© <span data-year>2026</span> PSH Design × Pigo Tour">
+        © <span data-year>2026</span> PSH Design × Pigo Tour
+      </p>
+      <p class="font-mono text-[10px] tracking-[.16em] uppercase text-bonemute m-0" data-en="Free for education in Vietnam">
+        Miễn phí cho giáo dục Việt Nam
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/heritage-data.js"></script>
+<script src="/assets/i18n.js"></script>
+<script src="/assets/psh.js"></script>
+
+<!-- ===================== Video nền hero ===================== -->
+<script>
+(function () {
+  'use strict';
+  var v = document.getElementById('hero-video');
+  if (!v) return;
+
+  /* Chưa gắn file, sai đường dẫn hoặc mạng hỏng → gỡ thẻ <video> đi để lộ nền
+     gradient dự phòng, thay vì để lại một ô đen. */
+  var src = v.querySelector('source');
+  if (src) src.addEventListener('error', function () { v.remove(); });
+
+  /* Người dùng bật "giảm chuyển động" thì dừng ở khung hình đầu. */
+  var still = window.PSH_STILL || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (still) v.removeAttribute('autoplay');
+
+  v.addEventListener('loadeddata', function () {
+    if (still) { v.pause(); return; }
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { /* trình duyệt chặn tự phát — vẫn hiện khung hình đầu */ });
+  });
+})();
+</script>
+
+</body>
+</html>

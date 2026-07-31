@@ -1,5 +1,5 @@
 /* =========================================================================
-   PSH HERITAGE — DANH SÁCH DI TÍCH & DI SẢN
+   PIHERITAGE — DANH SÁCH DI TÍCH & DI SẢN
    -------------------------------------------------------------------------
    ĐÂY LÀ FILE DUY NHẤT BẠN CẦN SỬA để thêm/bớt địa điểm.
    Cả trang chủ (đếm số liệu) và trang gallery đều đọc từ đây.
@@ -13,7 +13,7 @@
        era:'Niên đại',            era_en:'Era in English',
        lat:21.0000, lng:105.0000,
        viewer:'https://link-viewer-cua-ban',
-       photo:'images/ten-file-anh.jpg',
+       photo:'/images/ten-file-anh.jpg',
        splats:'30.0M', captured:'08/2026', unesco:false, tone:0 },
 
    Nhớ: chữ để trong nháy đơn '...', số thì không, cuối mỗi khối có dấu phẩy.
@@ -36,13 +36,15 @@
      captured           : tháng/năm quét (dữ liệu mẫu)
      captured_en        : chỉ cần khi `captured` có chữ tiếng Việt, ví dụ "Dự kiến 10/2026"
      unesco             : true nếu thuộc danh mục UNESCO
-     photo              : ẢNH XEM TRƯỚC THẬT, ví dụ 'images/dai-noi-hue.jpg'
-                          → Không viết ô này thì thẻ tự dùng ảnh mẫu xám. Cắt 16:9 cho đẹp.
+     photo              : ẢNH XEM TRƯỚC THẬT, ví dụ '/images/dai-noi-hue.jpg' — LUÔN có dấu `/`
+                          ở đầu (ảnh nằm trong thư mục images/ ở gốc repo, dùng chung cho cả
+                          trang chủ lẫn gallery). Không viết ô này thì thẻ tự dùng ảnh mẫu xám.
+                          Cắt 16:9 cho đẹp.
      tone               : 0–3, chỉ để ảnh placeholder có nhịp màu khác nhau
                           (không còn tác dụng khi đã có `photo`)
 
    ⚠️ Các link `viewer` bên dưới là LINK MẪU. Thay bằng link thật rồi xoá
-      dải cảnh báo màu vàng ở đầu trang gallery.html.
+      dải cảnh báo màu vàng ở đầu trang gallery (gallery/index.html).
 
    -------------------------------------------------------------------------
    VÙNG CHƯA MỞ RỘNG  →  ô "Sắp ra mắt"
@@ -78,7 +80,7 @@ window.PSH_HERITAGE = [
             lat:20.9792, lng:105.7730,
             gmaps:'https://maps.app.goo.gl/3QM56cTfpEiNJoEd7',
             viewer:'https://lcc-viewer.xgrids.com/pub/32ef8d04-5ad8-4e8a-a9d2-42ae8e4d08db',
-            photo:'images/conglangvanphuc.jpg',
+            photo:'/images/conglangvanphuc.jpg',
             splats:'48.2M', captured:'07/2026', unesco:false, tone:0 },
 
           { name:'Chùa Vạn Phúc', name_en:'Van Phuc Temple',
@@ -86,7 +88,7 @@ window.PSH_HERITAGE = [
             era:'1070', era_en:'1070',
             lat:20.9794, lng:105.7728,
             viewer:'https://lcc-viewer.xgrids.com/pub/1f406c03-f5bd-4984-9567-0f4468e7c208',
-            photo:'images/chuavanphuc.webp',
+            photo:'/images/chuavanphuc.webp',
             splats:'36.9M', captured:'07/2026', unesco:false, tone:1 },
 
           { name:'Cầu ngói làng lụa', name_en:'Pagoda',
@@ -94,7 +96,7 @@ window.PSH_HERITAGE = [
             era:'1049', era_en:'1049',
             lat:21.0359, lng:105.8339,
             viewer:'',
-            photo:'images/caungoilanglua.jpg',
+            photo:'/images/caungoilanglua.jpg',
             splats:'—', captured:'Dự kiến 08/2026', unesco:false, tone:2 },
 
           { name:'Đình làng Vạn Phúc', name_en:"Van Phuc Communal House",
@@ -102,7 +104,7 @@ window.PSH_HERITAGE = [
             era:'1886', era_en:'1886',
             lat:21.0288, lng:105.8489,
             viewer:'',
-            photo:'images/dinhlangvanphuc.jpg',
+            photo:'/images/dinhlangvanphuc.jpg',
             splats:'—', captured:'Dự kiến 08/2026', captured_en:'Planned 08/2026', unesco:false, tone:3 },
         ]
       },

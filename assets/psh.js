@@ -1,4 +1,4 @@
-/* PSH Heritage — hành vi dùng chung cho cả hai trang */
+/* PiHeritage — hành vi dùng chung cho cả hai trang */
 (function () {
   'use strict';
 

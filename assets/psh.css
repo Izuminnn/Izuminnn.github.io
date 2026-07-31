@@ -1,7 +1,7 @@
 /* =========================================================
-   PSH Heritage — hệ thống thiết kế dùng chung
-   Bảng màu suy ra từ 2 logo:
-     · Đỏ  #ED1C24  — màu chung của cả PSH Design và Pigo Tour (điểm giao)
+   PiHeritage — hệ thống thiết kế dùng chung
+   Bảng màu:
+     · Tím  #7842C0 — lấy từ logo PiHeritage, màu chính của thương hiệu
      · Xanh #1B9E4B → #8DC63F — vòng bánh răng Pigo Tour
      · Đen PSH được đẩy sang "đồng gỉ" (bronze patina) để hòa với xanh
    ========================================================= */
@@ -16,8 +16,8 @@
   --ink-400:#2a4436;
 
   /* Thương hiệu */
-  --psh:#ed1c24;
-  --psh-bright:#ff3b41;
+  --psh:#7842c0;
+  --psh-bright:#8b51d6;
   --pigo:#1b9e4b;
   --lime:#8dc63f;
 
@@ -39,8 +39,8 @@
 
   /* Đổ bóng nhiều lớp, ám màu, độ mờ thấp */
   --shade-1:0 1px 2px rgba(0,0,0,.55), 0 6px 16px -6px rgba(0,0,0,.5);
-  --shade-2:0 2px 4px rgba(0,0,0,.5), 0 18px 42px -14px rgba(0,0,0,.72), 0 0 0 1px rgba(237,28,36,.05);
-  --shade-red:0 10px 34px -12px rgba(237,28,36,.5);
+  --shade-2:0 2px 4px rgba(0,0,0,.5), 0 18px 42px -14px rgba(0,0,0,.72), 0 0 0 1px rgba(120,66,192,.05);
+  --shade-red:0 10px 34px -12px rgba(120,66,192,.5);
   --shade-green:0 10px 34px -12px rgba(27,158,75,.42);
 }
 
@@ -51,7 +51,7 @@ body{
   margin:0;
   background-color:var(--ink-800);
   background-image:
-    radial-gradient(1100px 720px at 84% -10%, rgba(237,28,36,.15), transparent 62%),
+    radial-gradient(1100px 720px at 84% -10%, rgba(120,66,192,.15), transparent 62%),
     radial-gradient(920px 640px at 4% 8%,    rgba(27,158,75,.12), transparent 60%),
     radial-gradient(1300px 900px at 50% 106%,rgba(141,198,63,.055),transparent 66%);
   background-attachment:fixed;
@@ -88,22 +88,10 @@ body::after{
 }
 .u-eyebrow .dot{color:var(--psh-bright)}
 
-/* ---------- Dấu hiệu nhận diện: khung lồng nhau, lấy từ logo PSH ----------
-   Ba khung lệch nhau = ba lát cắt chiều sâu = cách 3DGS ghi lại không gian. */
-.mark{position:relative;display:block;width:30px;height:26px;flex:none}
-.mark i{position:absolute;inset:0;display:block}
-.mark::before,.mark::after,.mark i::before,.mark i::after{
-  content:'';position:absolute;width:19px;height:13px;
-  transition:transform .5s var(--ease);
-}
-.mark::before,.mark i::before{border-top:2px solid var(--psh);border-left:2px solid var(--psh)}
-.mark::after,.mark i::after{border-bottom:2px solid var(--bone);border-right:2px solid var(--bone)}
-.mark::before{top:0;left:0}
-.mark i::before{top:5px;left:6px}
-.mark::after{bottom:0;right:0}
-.mark i::after{bottom:5px;right:6px}
-.group:hover .mark::before{transform:translate3d(-2px,-2px,0)}
-.group:hover .mark::after{transform:translate3d(2px,2px,0)}
+/* Biểu trưng PiHeritage ở nav — nhấc nhẹ và phóng to chút khi rê chuột vào link,
+   báo hiệu đây là nút bấm được (giống cách các thẻ và plaque khác phản hồi hover). */
+.pi-mark{transition:transform .45s var(--ease-spring)}
+.group:hover .pi-mark,.group:focus-visible .pi-mark{transform:translate3d(0,-3px,0) scale(1.08)}
 
 /* Khung lồng bao quanh khối nội dung — dùng lại cùng ngữ pháp hình học */
 .frame{position:relative}
@@ -151,7 +139,7 @@ body::after{
 .btn:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
 .btn:active{transform:translate3d(0,1px,0) scale(.985)}
 .btn--primary{background:var(--psh);color:#fff;box-shadow:var(--shade-red)}
-.btn--primary:hover{background:var(--psh-bright);transform:translate3d(0,-2px,0);box-shadow:0 16px 42px -12px rgba(237,28,36,.66)}
+.btn--primary:hover{background:var(--psh-bright);transform:translate3d(0,-2px,0);box-shadow:0 16px 42px -12px rgba(120,66,192,.66)}
 .btn--ghost{border-color:var(--ink-400);color:var(--bone);background:rgba(237,230,216,.025)}
 .btn--ghost:hover{border-color:var(--lime);color:var(--lime);transform:translate3d(0,-2px,0);box-shadow:var(--shade-green)}
 .btn--sm{padding:.65rem 1rem;font-size:.6875rem;letter-spacing:.1em}
@@ -204,7 +192,7 @@ body::after{
   position:absolute;inset:0;z-index:0;overflow:hidden;isolation:isolate;
   background-color:var(--ink-900);
   background-image:
-    radial-gradient(900px 620px at 74% 26%, rgba(237,28,36,.20), transparent 64%),
+    radial-gradient(900px 620px at 74% 26%, rgba(120,66,192,.20), transparent 64%),
     radial-gradient(780px 560px at 92% 74%, rgba(27,158,75,.20), transparent 62%),
     radial-gradient(1100px 760px at 40% 100%, rgba(141,198,63,.08), transparent 66%);
 }
@@ -225,7 +213,7 @@ video.hero-media{object-fit:cover;background:transparent}
 .hero-scrim{position:absolute;inset:0;z-index:2;pointer-events:none}
 .hero-scrim::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(200deg,rgba(170,220,190,.32),rgba(255,175,175,.26));
+  background:linear-gradient(200deg,rgba(170,220,190,.32),rgba(201,181,227,.26));
   mix-blend-mode:multiply;
 }
 .hero-scrim::after{
@@ -320,7 +308,7 @@ a.contact-value:focus-visible{outline:2px solid var(--lime);outline-offset:3px;c
 .chip--unesco{border-color:rgba(201,162,39,.42);color:var(--brass);background:rgba(201,162,39,.07)}
 .chip--live{border-color:rgba(141,198,63,.4);color:var(--lime);background:rgba(141,198,63,.07)}
 .chip--soon{border-color:rgba(184,174,156,.28);color:var(--bone-mute)}
-.chip--edu{border-color:rgba(237,28,36,.42);color:var(--psh-bright);background:rgba(237,28,36,.07)}
+.chip--edu{border-color:rgba(120,66,192,.42);color:var(--psh-bright);background:rgba(120,66,192,.07)}
 
 /* Chip lọc bấm được */
 .filter-chip{
@@ -342,7 +330,7 @@ a.contact-value:focus-visible{outline:2px solid var(--lime);outline-offset:3px;c
 }
 .field::placeholder{color:var(--bone-mute)}
 .field:hover{border-color:var(--ink-400)}
-.field:focus{outline:none;border-color:var(--psh);box-shadow:0 0 0 3px rgba(237,28,36,.14)}
+.field:focus{outline:none;border-color:var(--psh);box-shadow:0 0 0 3px rgba(120,66,192,.14)}
 .field-label{
   display:block;font-family:'JetBrains Mono',monospace;font-size:.625rem;font-weight:500;
   letter-spacing:.18em;text-transform:uppercase;color:var(--bone-mute);margin-bottom:.5rem;
@@ -448,7 +436,7 @@ a.plaque:active{transform:translate3d(0,-1px,0)}
    Khai trước .is-active để ghim đã chốt luôn thắng khi mang cả hai lớp. */
 .pin.is-hover b{transform:scale(1.18);box-shadow:0 0 0 2px #fff, 0 2px 8px rgba(141,198,63,.5)}
 .pin.is-hover::after{border-color:var(--lime);transform:scale(1.32)}
-.pin.is-active b{background:var(--psh);transform:scale(1.3);box-shadow:0 0 0 2px #fff, 0 2px 9px rgba(237,28,36,.5)}
+.pin.is-active b{background:var(--psh);transform:scale(1.3);box-shadow:0 0 0 2px #fff, 0 2px 9px rgba(120,66,192,.5)}
 .pin.is-active::after{border-color:var(--psh);transform:scale(1.45)}
 
 /* ---------- Thẻ địa điểm ---------- */
@@ -463,7 +451,7 @@ a.plaque:active{transform:translate3d(0,-1px,0)}
   border-color:var(--ink-400);
   box-shadow:var(--shade-2);
 }
-.card.is-active{border-color:rgba(237,28,36,.5)}
+.card.is-active{border-color:rgba(120,66,192,.5)}
 /* Lát cắt chiều sâu trượt ngang khi hover — nhắc lại logo PSH */
 .card::before{
   content:'';position:absolute;top:0;left:0;height:2px;width:100%;z-index:4;
@@ -493,7 +481,7 @@ a.plaque:active{transform:translate3d(0,-1px,0)}
 .locate:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
 .locate:active{transform:translate3d(0,1px,0)}
 /* Thẻ đang được giữ trên bản đồ — nút mang màu đỏ trùng với ghim đang chốt. */
-.locate[aria-pressed="true"]{color:var(--psh-bright);border-color:rgba(237,28,36,.5)}
+.locate[aria-pressed="true"]{color:var(--psh-bright);border-color:rgba(120,66,192,.5)}
 
 /* Nút phụ: cùng dáng nhưng bỏ viền, để nút chính trong cùng hàng nổi hơn. */
 .locate--quiet{border-color:transparent;padding-left:.25rem;padding-right:.25rem}
