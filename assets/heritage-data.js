@@ -98,7 +98,7 @@ window.PSH_HERITAGE = [
             viewer:'',
             photo:'/images/caungoilanglua.jpg',
             gmaps:'https://maps.app.goo.gl/A4QHnCbYUGiB5jmr6',
-            splats:'—', captured:'Dự kiến 08/2026', unesco:false, tone:2 },
+            splats:'—', captured:'Dự kiến 08/2026', captured_en:'Planned 08/2026', unesco:false, tone:2 },
 
           { name:'Đình làng Vạn Phúc', name_en:"Van Phuc Communal House",
             type:'Di sản', type_en:'Heritage',
