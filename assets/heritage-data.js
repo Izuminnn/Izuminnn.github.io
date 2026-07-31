@@ -91,7 +91,7 @@ window.PSH_HERITAGE = [
             photo:'/images/chuavanphuc.webp',
             splats:'36.9M', captured:'07/2026', unesco:false, tone:1 },
 
-          { name:'Cầu ngói làng lụa', name_en:'Pagoda',
+          { name:'Cầu ngói làng lụa', name_en:'Silk Village Tile-roofed Bridge',
             type:'Di sản', type_en:'Heritage',
             era:'', era_en:'',
             lat:20.9771, lng:105.7757,
